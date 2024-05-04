@@ -5,7 +5,7 @@
   "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thomasbuilds/start-oauth.git"
+    "url": "git+https://github.com/thomasbuilds/start-oauth.git"
   },
   "bugs": {
     "url": "https://github.com/thomasbuilds/start-oauth/issues"
