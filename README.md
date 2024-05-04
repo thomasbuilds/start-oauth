@@ -16,9 +16,6 @@ pnpm add start-oauth
 
 ## Configuration
 
-Your configuration can either be an object or a function.
-Use it as a function to have your variables in argument when your environment doesn't support `process.env` or `import.meta.env` (for example with Cloudflare).
-
 ```ts
 //api/oauth/[...oauth].ts
 import OAuth, { type Configuration } from "start-oauth";
@@ -43,7 +40,7 @@ export const GET = OAuth(configuration);
 - Adding a `redirect` search parameter on page requesting login gives you access to the value on handler function.
 
 ```tsx
-//login.tsx
+//login.tsx for example
 export default function Login() {
   const requestLogin = useOAuthLogin();
 
@@ -57,7 +54,7 @@ export default function Login() {
 }
 ```
 
-The package doesn’t provide the actual authentication for your app.
+The package doesn’t provide the session management.
 This provides you complete control over redirections and you can seamlessly integrate multiple authentication methods sharing the same logic.
 
 ## Contributions
