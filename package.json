@@ -1,6 +1,6 @@
 {
   "name": "start-oauth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Most efficient OAuth for SolidStart",
   "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
   "repository": {
@@ -19,7 +19,8 @@
   "author": "Thomas",
   "keywords": [
     "oauth",
-    "solid-start"
+    "solid-start",
+    "solid-js"
   ],
   "license": "MIT",
   "devDependencies": {

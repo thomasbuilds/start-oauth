@@ -1,6 +1,6 @@
 # OAuth2 for SolidStart
 
-[![NPM](https://img.shields.io/npm/v/solid-start-oauth.svg)](https://www.npmjs.com/package/solid-start-oauth)
+[![NPM](https://img.shields.io/npm/v/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
 
 This package returns the `name`, `email` and `image` of user authenticated through third party services (Discord, GitHub, Google, Spotify).
 
@@ -8,10 +8,10 @@ This package returns the `name`, `email` and `image` of user authenticated throu
 
 ```bash
 # npm
-npm install solid-start-oauth
+npm install start-oauth
 
 # pnpm
-pnpm add solid-start-oauth
+pnpm add start-oauth
 ```
 
 ## Configuration
@@ -21,7 +21,7 @@ Use it as a function to have your variables in argument when your environment do
 
 ```ts
 //api/oauth/[...oauth].ts
-import OAuth, { type Configuration } from "solid-start-oauth";
+import OAuth, { type Configuration } from "start-oauth";
 
 const configuration: Configuration = {
   google: {
