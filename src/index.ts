@@ -1,7 +1,7 @@
 import { redirect, useLocation, useSearchParams } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
-import providers, { type Providers } from "./providers";
 import encode from "./encode";
+import providers, { type Providers } from "./providers";
 import type { Configuration, Methods } from "./types";
 
 export default function OAuth(configuration: Configuration) {

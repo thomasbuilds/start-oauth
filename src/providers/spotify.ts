@@ -38,7 +38,7 @@ export default {
     return {
       name: display_name,
       email: email.toLowerCase(),
-      image: images?.[0]?.url,
+      image: images[0].url,
     };
   },
 } as Methods;

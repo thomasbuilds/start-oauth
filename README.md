@@ -27,9 +27,7 @@ const configuration: Configuration = {
     state: process.env.STATE, //optional XSRF protection
   },
   async handler(user, redirect) {
-    /*
-    create user session
-    */
+    //create user session
   },
 };
 
@@ -55,7 +53,7 @@ export default function Login() {
 ```
 
 The package doesn’t provide the session management.
-This provides you complete control over redirections and you can seamlessly integrate multiple authentication methods sharing the same logic.
+This gives you complete control over redirections and you can seamlessly integrate multiple authentication methods sharing the same logic.
 
 ## Contributions
 
