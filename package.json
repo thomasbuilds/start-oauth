@@ -1,6 +1,6 @@
 {
   "name": "start-oauth",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Most efficient OAuth for SolidStart",
   "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
   "repository": {
@@ -23,12 +23,9 @@
     "solid-js"
   ],
   "license": "MIT",
-  "devDependencies": {
-    "@solidjs/meta": "^0.29.3",
+  "peerDependencies": {
     "@solidjs/router": "^0.13.3",
-    "@solidjs/start": "^1.0.0-rc.0",
-    "solid-js": "^1.8.17",
-    "vinxi": "^0.3.11"
+    "@solidjs/start": "1.0.0-rc.1"
   },
   "engines": {
     "node": ">=18"

@@ -2,7 +2,7 @@
 
 [![NPM](https://img.shields.io/npm/v/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
 
-This package returns the `name`, `email` and `image` of user authenticated through third party services (Discord, GitHub, Google, Spotify).
+This package returns the `name`, `email` and `image` of user authenticated through third party services (supporting Discord, GitHub, Google and Spotify as of now).
 
 ## Installation
 
@@ -17,7 +17,7 @@ pnpm add start-oauth
 ## Configuration
 
 ```ts
-//api/oauth/[...oauth].ts
+//MUST BE api/oauth/[...oauth].ts
 import OAuth, { type Configuration } from "start-oauth";
 
 const configuration: Configuration = {
