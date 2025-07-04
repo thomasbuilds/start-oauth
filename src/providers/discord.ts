@@ -17,7 +17,7 @@ export default {
 
   async requestToken({ id, secret, code, redirect_uri }) {
     const response = await fetch("https://discord.com/api/v10/oauth2/token", {
-      method: "POST",
+      method: "post",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({
         grant_type: "authorization_code",
@@ -27,9 +27,8 @@ export default {
         redirect_uri,
       }),
     });
-    if (response.status !== 200)
-      throw new Error("failed to fetch access token");
-    return await response.json();
+    if (!response.ok) throw new Error("failed to fetch access token");
+    return response.json();
   },
 
   async requestUser(token) {
@@ -37,7 +36,7 @@ export default {
       headers: { Authorization: token },
     });
     const data = await response.json();
-    if (response.status !== 200) throw new Error(data.message);
+    if (!response.ok) throw new Error(data.message);
     const { id, username, email, avatar }: Discord = data;
     return {
       name: username,

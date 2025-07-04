@@ -16,16 +16,15 @@ export default {
 
   async requestToken({ id, secret, code, redirect_uri }) {
     const response = await fetch("https://accounts.spotify.com/api/token", {
-      method: "POST",
+      method: "post",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: "Basic " + btoa(id + ":" + secret),
       },
       body: encode({ grant_type: "authorization_code", code, redirect_uri }),
     });
-    if (response.status !== 200)
-      throw new Error("failed to fetch access token");
-    return await response.json();
+    if (!response.ok) throw new Error("failed to fetch access token");
+    return response.json();
   },
 
   async requestUser(token) {
@@ -33,7 +32,7 @@ export default {
       headers: { Authorization: token },
     });
     const data = await response.json();
-    if (response.status !== 200) throw new Error(data.message);
+    if (!response.ok) throw new Error(data.message);
     const { display_name, email, images }: Spotify = data;
     return {
       name: display_name,

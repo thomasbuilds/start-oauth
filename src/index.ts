@@ -1,50 +1,42 @@
 import { redirect, useLocation, useSearchParams } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
 import encode from "./encode";
-import providers, { type Providers } from "./providers";
+import providers, { Provider } from "./providers";
 import type { Configuration, Methods } from "./types";
 
-export default function OAuth(configuration: Configuration) {
-  let errorURL: string;
-  let redirectURL: string | undefined;
-
+export default function OAuth(config: Configuration) {
   return async ({ request: { url }, params }: APIEvent) => {
-    const [provider] = Object.values(params);
+    const provider = Object.values(params)[0] as Provider;
+    const methods = providers[provider] as Methods;
+    if (!methods) return new Response("Unknown provider", { status: 404 });
+
+    const client = config[provider];
+    if (!client?.id || !client.secret)
+      return new Response("Invalid provider configuration", { status: 400 });
+
+    const { requestCode, requestToken, requestUser } = methods;
     const { searchParams, origin, pathname } = new URL(url);
+    const redirectUri = origin + pathname;
+    const fallback = searchParams.get("fallback") || "";
+    const returnTo = searchParams.get("redirect") || undefined;
 
-    if (!configuration.handler)
-      return new Response("handler function missing in configuration");
-
-    const methods = providers[provider as Providers];
-    if (!methods) return new Response(`'${provider}' provider doesn't exist`);
-    const { requestCode, requestToken, requestUser }: Methods = methods;
-
-    const clientConfig = configuration[provider as Providers];
-    if (!clientConfig.id || !clientConfig.secret)
-      return new Response(`${provider} configuration is malformed`);
-
-    const apiConfig = { ...clientConfig, redirect_uri: origin + pathname };
-
-    const fallback = searchParams.get("fallback");
-    if (fallback) {
-      errorURL = fallback;
-      redirectURL = searchParams.get("redirect") || undefined;
-      return redirect(requestCode(apiConfig));
-    }
+    if (fallback && !searchParams.get("code"))
+      return redirect(requestCode({ ...client, redirect_uri: redirectUri }));
 
     try {
       const error = searchParams.get("error");
       if (error) throw new Error(error);
       const code = searchParams.get("code");
-      if (!code) throw new Error("missing code parameter in url");
+      if (!code) throw new Error("Missing code");
       const { token_type, access_token } = await requestToken({
-        ...apiConfig,
+        ...client,
+        redirect_uri: redirectUri,
         code,
       });
       const user = await requestUser(`${token_type} ${access_token}`);
-      return await configuration.handler(user, redirectURL);
-    } catch ({ message }: any) {
-      return redirect(`${errorURL}?error=${message}`);
+      return await config.handler(user, returnTo);
+    } catch (err: any) {
+      return redirect(`${fallback}?error=${encodeURIComponent(err.message)}`);
     }
   };
 }
@@ -52,7 +44,8 @@ export default function OAuth(configuration: Configuration) {
 export function useOAuthLogin() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  return (provider: Providers) => {
+
+  return (provider: Provider) => {
     const params = encode({
       fallback: location.pathname,
       redirect: searchParams.redirect,
@@ -60,5 +53,3 @@ export function useOAuthLogin() {
     return `/api/oauth/${provider}?${params}`;
   };
 }
-
-export type { User, Configuration } from "./types";

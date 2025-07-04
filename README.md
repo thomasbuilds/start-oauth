@@ -1,6 +1,9 @@
 # OAuth2 for SolidStart
 
 [![NPM](https://img.shields.io/npm/v/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Downloads](https://img.shields.io/npm/dm/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
 
 This package returns the `name`, `email` and `image` of user authenticated through third party services (supporting Discord, GitHub, Google and Spotify as of now).
 

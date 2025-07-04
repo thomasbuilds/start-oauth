@@ -22,11 +22,10 @@ export default {
     });
     const response = await fetch(
       `https://github.com/login/oauth/access_token?${params}`,
-      { method: "POST", headers: { Accept: "application/json" } }
+      { method: "post", headers: { Accept: "application/json" } }
     );
-    if (response.status !== 200)
-      throw new Error("failed to fetch access token");
-    return await response.json();
+    if (!response.ok) throw new Error("failed to fetch access token");
+    return response.json();
   },
 
   async requestUser(token) {
@@ -35,7 +34,7 @@ export default {
         headers: { Authorization: token },
       });
       const data = await response.json();
-      if (response.status !== 200) throw new Error(data.message);
+      if (!response.ok) throw new Error(data.message);
       return data;
     };
     const { name, avatar_url }: GitHubUser = await query("/user");

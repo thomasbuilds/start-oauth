@@ -1,9 +1,9 @@
 export default (params: Record<string, any>) =>
   Object.entries(params)
-    .filter(([_, value]) => value)
-    .map(([key, value]) =>
-      Array.isArray(value)
-        ? `${key}=${value.map(encodeURIComponent).join("+")}`
-        : `${key}=${encodeURIComponent(value)}`
+    .filter(([, v]) => v != null && v !== "")
+    .map(([k, v]) =>
+      Array.isArray(v)
+        ? `${k}=${v.map(encodeURIComponent).join("+")}`
+        : `${k}=${encodeURIComponent(v)}`
     )
     .join("&");

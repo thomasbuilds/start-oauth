@@ -3,8 +3,8 @@ import github from "./github";
 import google from "./google";
 import spotify from "./spotify";
 
-const providers = { discord, github, google, spotify };
+const providers = { discord, github, google, spotify } as const;
 
 export default providers;
 
-export type Providers = keyof typeof providers;
+export type Provider = keyof typeof providers;

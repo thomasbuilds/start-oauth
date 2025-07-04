@@ -1,18 +1,26 @@
-import type { Providers } from "./providers";
+import type { Provider } from "./providers";
 
-export type Identifiers = { id: string; secret: string; state?: string };
+export type Identifiers = {
+  id: string;
+  secret: string;
+  state?: string;
+};
 
-export type User = { name: string; email: string; image: string | undefined };
+export type User = {
+  name: string;
+  email: string;
+  image?: string;
+};
 
-export type Configuration = Record<Providers, Identifiers> & {
-  handler: (user: User, redirect?: string) => unknown;
+export type Configuration = Partial<Record<Provider, Identifiers>> & {
+  handler: (user: User, redirectTo?: string) => Response | Promise<Response>;
 };
 
 export type Methods = {
   requestCode: (config: Identifiers & { redirect_uri: string }) => string;
   requestToken: (
     config: Identifiers & { redirect_uri: string; code: string }
-  ) => Promise<Record<string, string>>;
+  ) => Promise<{ token_type: string; access_token: string }>;
   requestUser: (token: string) => Promise<User>;
 };
 
