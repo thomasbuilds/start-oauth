@@ -21,6 +21,7 @@ pnpm add start-oauth
 
 ```ts
 //MUST BE api/oauth/[...oauth].ts
+import { redirect } from "@solidjs/router";
 import OAuth, { type Configuration } from "start-oauth";
 
 const configuration: Configuration = {
@@ -29,8 +30,9 @@ const configuration: Configuration = {
     secret: process.env.GOOGLE_SECRET as string,
     state: process.env.STATE, //optional XSRF protection
   },
-  async handler(user, redirect) {
-    //create user session
+  async handler(user, r) {
+    //create user session and then redirect user
+    return redirect(r || "/myaccount")
   },
 };
 
