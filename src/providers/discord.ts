@@ -7,7 +7,6 @@ export default {
     const params = encode({
       response_type: "code",
       scope: ["identify", "email"],
-      prompt: "none",
       client_id: id,
       redirect_uri,
       state,
