@@ -18,12 +18,18 @@ const sign = async (data: string) => {
     ["sign"]
   );
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
-  return Array.from(new Uint8Array(signature), b => b.toString(16).padStart(2, "0")).join("");
+  return Array.from(new Uint8Array(signature), (b) =>
+    b.toString(16).padStart(2, "0")
+  ).join("");
 };
 
 export const encodeState = async (fallback: string, redirect?: string) => {
   const timestamp = Date.now().toString(36);
-  const data = JSON.stringify({ fallback, redirect: redirect || fallback, t: timestamp });
+  const data = JSON.stringify({
+    fallback,
+    redirect: redirect || fallback,
+    t: timestamp,
+  });
   const signature = await sign(data);
   const state = `${signature}.${btoa(data)}`;
   return state.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
@@ -34,17 +40,17 @@ export const decodeState = async (state: string) => {
     const normalized = state.replace(/-/g, "+").replace(/_/g, "/");
     const [signature, encoded] = normalized.split(".");
     if (!signature || !encoded) return null;
-    
+
     const data = atob(encoded);
     const expected = await sign(data);
-    
+
     if (expected !== signature) return null;
-    
+
     const { fallback, redirect, t } = JSON.parse(data);
-    
+
     const timestamp = parseInt(t, 36);
     if (Date.now() - timestamp > 15 * 60 * 1000) return null;
-    
+
     return {
       fallback,
       redirect: redirect === fallback ? undefined : redirect,
