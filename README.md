@@ -5,61 +5,62 @@
 [![Downloads](https://img.shields.io/npm/dm/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
 
-This package returns the `name`, `email` and `image` of user authenticated through third party services (supporting Discord, GitHub, Google and Spotify as of now).
+Secure OAuth2 integration for SolidStart. Returns the `name`, `email` and `image` of authenticated users.
+
+**Supports:** Discord, GitHub, Google and Spotify
 
 ## Installation
 
 ```bash
-# npm
 npm install start-oauth
-
-# pnpm
-pnpm add start-oauth
 ```
 
 ## Configuration
 
 ```ts
-//MUST BE api/oauth/[...oauth].ts
+// src/routes/api/oauth/[...oauth].ts
 import { redirect } from "@solidjs/router";
 import OAuth, { type Configuration } from "start-oauth";
 
-const configuration: Configuration = {
+const config: Configuration = {
   google: {
-    id: process.env.GOOGLE_ID as string,
-    secret: process.env.GOOGLE_SECRET as string,
-    state: process.env.STATE, //optional XSRF protection
+    id: process.env.GOOGLE_ID!,
+    secret: process.env.GOOGLE_SECRET!,
   },
-  async handler(user, r) {
-    //create user session and then redirect user
-    return redirect(r || "/myaccount")
+  async handler(user, redirectTo) {
+    // Create user session and redirect
+    return redirect(redirectTo || "/dashboard");
   },
 };
 
-export const GET = OAuth(configuration);
+export const GET = OAuth(config);
 ```
 
-- In case of error, you are redirected to page requesting login and `error` parameter specifies reason.
-- Adding a `redirect` search parameter on page requesting login gives you access to the value on handler function.
+**Required environment variables:**
+- `SESSION_SECRET` - Min 32 characters for CSRF protection
+- Provider credentials (e.g., `GOOGLE_ID`, `GOOGLE_SECRET`)
+
+## Usage
 
 ```tsx
-//login.tsx for example
+import { useOAuthLogin } from "start-oauth";
+
 export default function Login() {
   const requestLogin = useOAuthLogin();
 
   return (
-    <div>
-      <a href={requestLogin("google")} rel="external">
-        <GoogleIcon />
-      </a>
-    </div>
+    <a href={requestLogin("google")} rel="external">
+      Login with Google
+    </a>
   );
 }
 ```
 
-The package doesn’t provide the session management.
-This gives you complete control over redirections and you can seamlessly integrate multiple authentication methods sharing the same logic.
+- Errors redirect to the requesting page with `?error=reason`
+- Add `?redirect=/path` to return users to a specific page after login
 
-## Contributions
+Set redirect URI: `https://yourdomain.com/api/oauth/[provider]`
 
-Please open issues for bugs and we much appreciate contributions for more provider support.
+## Contributing
+
+Issues and PRs welcome, especially for new provider support.
