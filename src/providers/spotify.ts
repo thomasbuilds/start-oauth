@@ -1,4 +1,4 @@
-import encode from "../encode";
+import { encode } from "../utils";
 import type { Methods, Spotify } from "../types";
 
 export default {

@@ -27,6 +27,9 @@
     "@solidjs/router": "^0.15.3",
     "@solidjs/start": "^1.1.6"
   },
+  "devDependencies": {
+    "@types/node": "^24.0.13"
+  },
   "engines": {
     "node": ">=22"
   }

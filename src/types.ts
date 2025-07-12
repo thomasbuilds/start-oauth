@@ -3,7 +3,6 @@ import type { Provider } from "./providers";
 export type Identifiers = {
   id: string;
   secret: string;
-  state?: string;
 };
 
 export type User = {
@@ -17,7 +16,9 @@ export type Configuration = Partial<Record<Provider, Identifiers>> & {
 };
 
 export type Methods = {
-  requestCode: (config: Identifiers & { redirect_uri: string }) => string;
+  requestCode: (
+    config: Identifiers & { redirect_uri: string; state: string }
+  ) => string;
   requestToken: (
     config: Identifiers & { redirect_uri: string; code: string }
   ) => Promise<{ token_type: string; access_token: string }>;
@@ -71,7 +72,7 @@ export type GitHubUser = {
 
 export type GithubEmails = Array<{
   email: string;
-  primary: boolean; //at least one true, other false
+  primary: boolean;
   verified: boolean;
   visibility: string | null;
 }>;
