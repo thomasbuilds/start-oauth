@@ -37,6 +37,7 @@ export const GET = OAuth(config);
 ```
 
 **Required environment variables:**
+
 - `SESSION_SECRET` - Min 32 characters for CSRF protection
 - Provider credentials (e.g., `GOOGLE_ID`, `GOOGLE_SECRET`)
 
