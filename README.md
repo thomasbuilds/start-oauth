@@ -27,15 +27,9 @@ const config: Configuration = {
     id: process.env.GOOGLE_ID!,
     secret: process.env.GOOGLE_SECRET!,
   },
-<<<<<<< HEAD
-  async handler(user, redirectTo) {
-    // Create user session and redirect
-    return redirect(redirectTo || "/dashboard");
-=======
   async handler(user, r) {
     //create user session and then redirect user
     return redirect(r || "/myaccount");
->>>>>>> 88596bf (start-oauth@1.1.8)
   },
 };
 
