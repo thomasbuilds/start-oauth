@@ -1,13 +1,13 @@
-<img width="100%" src="https://assets.solidjs.com/banner?project=start-oauth" alt="Banner">
+[![Banner](https://assets.solidjs.com/banner?project=start-oauth)](https://github.com/thomasbuilds/start-oauth)
 
-# OAuth2 for SolidStart
+# OAuth for SolidStart
 
 [![NPM](https://img.shields.io/npm/v/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Downloads](https://img.shields.io/npm/dm/start-oauth.svg)](https://www.npmjs.com/package/start-oauth)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
 
-Secure OAuth2 integration for SolidStart. Returns the `name`, `email` and `image` of authenticated users.
+Secure and lightweight OAuth 2.0 for SolidStart. Returns the `name`, `email` and `image` of authenticated users.
 
 **Supports:** Discord, GitHub, Google and Spotify
 
@@ -40,7 +40,7 @@ const config: Configuration = {
   async handler(user, redirectTo) {
     //create user session and then redirect user
     const session = await getSession();
-    await session.update({ user });
+    await session.update(user);
     return redirect(redirectTo || "/myaccount");
   },
 };
@@ -71,11 +71,11 @@ export default function Login() {
 }
 ```
 
-- Errors redirect to the requesting page (here login.tsx) with `?error=reason`
+- Errors redirect to the requesting page (*here login.tsx*) with `?error=reason`
 - Add `?redirect=/path` on the requesting page to redirect users after successful sign in
 
 Set redirect URI: `https://yourdomain.com/api/oauth/[provider]`
 
 ## Contributing
 
-Issues and PRs welcome, especially for new provider support.
+Issues and PRs welcome, **especially for new provider support**.
