@@ -80,8 +80,8 @@ export default function Login() {
 
 ## 🤝 Contributing
 
-Contributions are welcome! To request a new provider, simply copy any file from the [providers](src/providers) directory, update its links to match new config, and PR 🎉
+Contributions are welcome! To add a new provider, copy an existing [provider](src/providers/google), update the links to match the new configuration, and submit a PR 🎉.
 
 ---
 
-🟢 Learn how to set up session context and route protection [here](https://gist.github.com/thomasbuilds/d1f7a2e534189dadb42c429309766d48#file-solidstart-auth-context-md)
+⭐ Learn how to setup session context and route protection [here](https://gist.github.com/thomasbuilds/d1f7a2e534189dadb42c429309766d48#file-solidstart-auth-context-md).
