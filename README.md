@@ -80,7 +80,7 @@ export default function Login() {
 
 ## 🤝 Contributing
 
-Contributions are welcome! To add a new provider, copy an existing [provider](src/providers/google), update the links to match the new configuration, and submit a PR 🎉.
+Contributions are welcome! To add a new provider, copy an existing [provider](src/providers/google.ts), update the links to match the new configuration, and submit a PR 🎉.
 
 ---
 
