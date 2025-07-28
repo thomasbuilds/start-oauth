@@ -13,7 +13,7 @@ export interface User {
 }
 
 export type Configuration = Partial<Record<Provider, Identifiers>> & {
-  password?: string;
+  password: string;
   handler: (user: User, redirectTo?: string) => Promise<CustomResponse<never>>;
 };
 

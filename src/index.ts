@@ -6,8 +6,8 @@ import type { Configuration } from "./types";
 
 export default function OAuth(config: Configuration) {
   const { password, handler } = config;
-  if (typeof handler !== "function")
-    throw new Error("Missing handler in OAuth configuration");
+  if (!password || typeof handler !== "function")
+    throw new Error("Invalid OAuth configuration");
   return async ({ request: { url }, params: { oauth } }: APIEvent) => {
     if (!isProvider(oauth))
       return new Response("Unknown provider", { status: 404 });

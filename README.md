@@ -29,7 +29,7 @@ import { redirect } from "@solidjs/router";
 import OAuth, { type Configuration } from "start-oauth";
 
 const config: Configuration = {
-  password: process.env.SESSION_SECRET,
+  password: process.env.SESSION_SECRET!,
   google: {
     id: process.env.GOOGLE_ID!,
     secret: process.env.GOOGLE_SECRET!,

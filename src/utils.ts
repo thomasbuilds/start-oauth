@@ -11,7 +11,7 @@ export const encode = (obj: Record<string, string | string[] | undefined>) => {
   return searchParams.toString();
 };
 
-export const sign = async (data: string, password?: string) => {
+export const sign = async (data: string, password: string) => {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
     "raw",
@@ -27,7 +27,7 @@ export const sign = async (data: string, password?: string) => {
 export const encodeState = async (
   fallback: string,
   redirect: string | null,
-  password?: string
+  password: string
 ) => {
   const data = JSON.stringify({
     fallback,
@@ -39,7 +39,7 @@ export const encodeState = async (
   return `${signature}.${base64Data}`;
 };
 
-export const decodeState = async (state: string, password?: string) => {
+export const decodeState = async (state: string, password: string) => {
   try {
     const [signature, encoded] = state.split(".");
     if (!signature || !encoded) return null;
