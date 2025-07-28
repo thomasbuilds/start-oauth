@@ -14,7 +14,7 @@ export interface User {
 
 export type Configuration = Partial<Record<Provider, Identifiers>> & {
   password?: string;
-  handler: (user: User, redirectTo?: string) => CustomResponse<never>;
+  handler: (user: User, redirectTo?: string) => Promise<CustomResponse<never>>;
 };
 
 export interface Methods {
