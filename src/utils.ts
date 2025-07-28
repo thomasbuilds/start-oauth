@@ -1,56 +1,52 @@
-export const encode = (params: Record<string, any>) =>
-  Object.entries(params)
-    .filter(([, v]) => v != null && v !== "")
-    .map(([k, v]) =>
-      Array.isArray(v)
-        ? `${k}=${v.map(encodeURIComponent).join("+")}`
-        : `${k}=${encodeURIComponent(v)}`
-    )
-    .join("&");
+export const encode = (obj: Record<string, string | string[] | undefined>) => {
+  const searchParams = new URLSearchParams();
+  for (const [k, v] of Object.entries(obj)) {
+    if (v === undefined) continue;
+    const value = Array.isArray(v)
+      ? v.filter((str) => str !== "").join(" ")
+      : v;
+    if (value === "") continue;
+    searchParams.append(k, value);
+  }
+  return searchParams.toString();
+};
 
-const sign = async (data: string) => {
+export const sign = async (data: string, password?: string) => {
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey(
     "raw",
-    encoder.encode(process.env.SESSION_SECRET!),
+    encoder.encode(password),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
   );
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(data));
-  return Array.from(new Uint8Array(signature), (b) =>
-    b.toString(16).padStart(2, "0")
-  ).join("");
+  return Buffer.from(signature).toString("base64url");
 };
 
-export const encodeState = async (fallback: string, redirect?: string) => {
-  const timestamp = Date.now().toString(36);
+export const encodeState = async (
+  fallback: string,
+  redirect: string | null,
+  password?: string
+) => {
   const data = JSON.stringify({
     fallback,
-    redirect: redirect || fallback,
-    t: timestamp,
+    redirect: redirect ?? fallback,
+    t: Date.now().toString(36),
   });
-  const signature = await sign(data);
-  const state = `${signature}.${btoa(data)}`;
-  return state.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+  const signature = await sign(data, password);
+  const base64Data = Buffer.from(data, "utf8").toString("base64url");
+  return `${signature}.${base64Data}`;
 };
 
-export const decodeState = async (state: string) => {
+export const decodeState = async (state: string, password?: string) => {
   try {
-    const normalized = state.replace(/-/g, "+").replace(/_/g, "/");
-    const [signature, encoded] = normalized.split(".");
+    const [signature, encoded] = state.split(".");
     if (!signature || !encoded) return null;
-
-    const data = atob(encoded);
-    const expected = await sign(data);
-
-    if (expected !== signature) return null;
-
+    const data = Buffer.from(encoded, "base64url").toString("utf8");
+    if ((await sign(data, password)) !== signature) return null;
     const { fallback, redirect, t } = JSON.parse(data);
-
-    const timestamp = parseInt(t, 36);
-    if (Date.now() - timestamp > 15 * 60 * 1000) return null;
-
+    if (Date.now() - parseInt(t, 36) > 5 * 60 * 1000) return null;
     return {
       fallback,
       redirect: redirect === fallback ? undefined : redirect,

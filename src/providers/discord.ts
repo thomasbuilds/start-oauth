@@ -1,7 +1,7 @@
 import { encode } from "../utils";
-import type { Discord, Methods } from "../types";
+import type { Methods } from "../types";
 
-export default {
+const discord: Methods = {
   requestCode({ id, redirect_uri, state }) {
     const url = "https://discord.com/oauth2/authorize";
     const params = encode({
@@ -15,7 +15,7 @@ export default {
   },
 
   async requestToken({ id, secret, code, redirect_uri }) {
-    const response = await fetch("https://discord.com/api/v10/oauth2/token", {
+    const response = await fetch("https://discord.com/api/oauth2/token", {
       method: "post",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({
@@ -31,16 +31,17 @@ export default {
   },
 
   async requestUser(token) {
-    const response = await fetch("https://discord.com/api/v10/users/@me", {
+    const response = await fetch("https://discord.com/api/users/@me", {
       headers: { Authorization: token },
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
-    const { id, username, email, avatar }: Discord = data;
     return {
-      name: username,
-      email: email.toLowerCase(),
-      image: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
+      name: data.username,
+      email: data.email.toLowerCase(),
+      image: `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png`,
     };
   },
-} as Methods;
+};
+
+export default discord;

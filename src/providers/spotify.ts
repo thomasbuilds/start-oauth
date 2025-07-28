@@ -1,7 +1,7 @@
 import { encode } from "../utils";
-import type { Methods, Spotify } from "../types";
+import type { Methods } from "../types";
 
-export default {
+const spotify: Methods = {
   requestCode({ id, redirect_uri, state }) {
     const url = "https://accounts.spotify.com/authorize";
     const params = encode({
@@ -33,11 +33,12 @@ export default {
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
-    const { display_name, email, images }: Spotify = data;
     return {
-      name: display_name,
-      email: email.toLowerCase(),
-      image: images[0].url,
+      name: data.display_name,
+      email: data.email.toLowerCase(),
+      image: data.images[0].url,
     };
   },
-} as Methods;
+};
+
+export default spotify;

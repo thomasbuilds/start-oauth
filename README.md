@@ -29,6 +29,7 @@ import { redirect } from "@solidjs/router";
 import OAuth, { type Configuration } from "start-oauth";
 
 const config: Configuration = {
+  password: process.env.SESSION_SECRET,
   google: {
     id: process.env.GOOGLE_ID!,
     secret: process.env.GOOGLE_SECRET!,
@@ -47,11 +48,6 @@ const config: Configuration = {
 
 export const GET = OAuth(config);
 ```
-
-Ensure the following environment variables are set:
-
-- `SESSION_SECRET` - min. 32 chars, for CSRF protection
-- `GOOGLE_ID`, `GOOGLE_SECRET`, etc
 
 In your OAuth provider dashboard, configure the redirect URI to:
 

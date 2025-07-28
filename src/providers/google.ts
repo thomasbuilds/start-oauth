@@ -1,7 +1,7 @@
 import { encode } from "../utils";
-import type { Methods, Google } from "../types";
+import type { Methods } from "../types";
 
-export default {
+const google: Methods = {
   requestCode({ id, redirect_uri, state }) {
     const url = "https://accounts.google.com/o/oauth2/v2/auth";
     const params = encode({
@@ -38,7 +38,12 @@ export default {
     );
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
-    const { given_name, email, picture }: Google = data;
-    return { name: given_name, email: email.toLowerCase(), image: picture };
+    return {
+      name: data.given_name,
+      email: data.email.toLowerCase(),
+      image: data.picture,
+    };
   },
-} as Methods;
+};
+
+export default google;

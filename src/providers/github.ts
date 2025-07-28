@@ -1,7 +1,7 @@
 import { encode } from "../utils";
-import type { GitHubUser, GithubEmails, Methods } from "../types";
+import type { Methods } from "../types";
 
-export default {
+const github: Methods = {
   requestCode({ id, redirect_uri, state }) {
     const url = "https://github.com/login/oauth/authorize";
     const params = encode({
@@ -37,9 +37,11 @@ export default {
       if (!response.ok) throw new Error(data.message);
       return data;
     };
-    const { name, avatar_url }: GitHubUser = await query("/user");
-    const emails: GithubEmails = await query("/user/emails");
-    const { email } = emails.find(({ primary }) => primary === true)!;
+    const { name, avatar_url } = await query("/user");
+    const emails = await query("/user/emails");
+    const { email } = emails.find(({ primary }) => primary === true);
     return { name: name, email: email.toLowerCase(), image: avatar_url };
   },
-} as Methods;
+};
+
+export default github;
