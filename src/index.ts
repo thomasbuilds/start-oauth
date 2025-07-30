@@ -13,48 +13,42 @@ export default function OAuth(config: Configuration) {
       return new Response("Unknown provider", { status: 404 });
     const client = config[oauth];
     if (!client?.id || !client.secret)
-      return new Response(`Missing credentials for ${oauth} provider`, {
-        status: 400,
-      });
+      return new Response(`Missing ${oauth} credentials`, { status: 400 });
 
     const { requestCode, requestToken, requestUser } = providers[oauth];
     const { searchParams, origin, pathname } = new URL(url);
     const redirect_uri = origin + pathname;
-    const fallback = searchParams.get("fallback");
-    const returnTo = searchParams.get("redirect");
-    const code = searchParams.get("code");
-    const error = searchParams.get("error");
+    const params: Record<string, string | undefined> = Object.fromEntries(
+      searchParams.entries()
+    );
 
-    if (fallback && !code && !error) {
-      const state = await encodeState(fallback, returnTo, password);
+    if (params.fallback && !params.code && !params.error) {
+      const state = encodeState(params.fallback, password, params.redirect);
       return redirect(requestCode({ ...client, redirect_uri, state }));
     }
 
-    const stateParam = searchParams.get("state");
-    const state = stateParam ? await decodeState(stateParam, password) : null;
-    const errorFallback = state?.fallback || "/";
+    const state = params.state ? decodeState(params.state, password) : null;
+    const validFallback =
+      state?.fallback[0] === "/" && state.fallback[1] !== "/";
+    const error_path = validFallback ? state.fallback : "/";
 
-    if (!state)
+    if (!state) return redirect(error_path + "?error=Invalid state");
+    if (params.error)
       return redirect(
-        `${errorFallback}?error=${encodeURIComponent("Invalid state")}`
+        error_path + "?error=" + encodeURIComponent(params.error)
       );
-    if (error)
-      return redirect(`${errorFallback}?error=${encodeURIComponent(error)}`);
-    if (!code)
-      return redirect(
-        `${errorFallback}?error=${encodeURIComponent("Missing code")}`
-      );
+    if (!params.code) return redirect(error_path + "?error=Missing code");
 
     try {
       const { token_type, access_token } = await requestToken({
         ...client,
         redirect_uri,
-        code,
+        code: params.code,
       });
       const user = await requestUser(`${token_type} ${access_token}`);
       return handler(user, state.redirect);
     } catch ({ message }: any) {
-      return redirect(`${errorFallback}?error=${encodeURIComponent(message)}`);
+      return redirect(`${error_path}?error=${encodeURIComponent(message)}`);
     }
   };
 }
