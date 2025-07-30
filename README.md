@@ -40,12 +40,12 @@ const config: Configuration = {
   },
   async handler(user, dest) {
     // for better security sanitize
-    const safePath = dest?.startsWith("/") && !dest.startsWith("//");
+    const validDest = dest?.[0] === "/" && dest[1] !== "/";
 
     // create user session and redirect user
     const session = await getSession();
     await session.update(user);
-    return redirect(safePath ? dest : "/account");
+    return redirect(validDest ? dest : "/account");
   },
 };
 
