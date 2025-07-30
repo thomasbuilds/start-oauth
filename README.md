@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/npm/dm/start-oauth.svg?style=for-the-badge)](https://www.npmjs.com/package/start-oauth)
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
 
-Secure and lightweight OAuth 2.0 for [SolidStart](https://github.com/solidjs/solid-start). Returns the `name`, `email` and `image` of authenticated users.
+Secure and lightweight OAuth 2.0 for [SolidStart](https://github.com/solidjs/solid-start). Returns the `name`, `email`, and `image` of authenticated users.
 
 **Supports:** Discord, GitHub, Google, Spotify
 
@@ -30,19 +30,22 @@ import OAuth, { type Configuration } from "start-oauth";
 
 const config: Configuration = {
   password: process.env.SESSION_SECRET!,
+  discord: {
+    id: process.env.DISCORD_ID!,
+    secret: process.env.DISCORD_SECRET!,
+  },
   google: {
     id: process.env.GOOGLE_ID!,
     secret: process.env.GOOGLE_SECRET!,
   },
-  github: {
-    id: process.env.GITHUB_ID!,
-    secret: process.env.GITHUB_SECRET!,
-  },
-  async handler(user, redirectTo) {
+  async handler(user, dest) {
+    // for better security sanitize
+    const safePath = dest?.startsWith("/") && !dest.startsWith("//");
+
     // create user session and redirect user
     const session = await getSession();
     await session.update(user);
-    return redirect(redirectTo || "/defaultRedirect");
+    return redirect(safePath ? dest : "/account");
   },
 };
 
@@ -57,21 +60,25 @@ In your OAuth provider dashboard, configure the redirect URI to:
 
 ```tsx
 // for example routes/login.tsx
-import { A } from "@solidjs/router";
 import { useOAuthLogin } from "start-oauth";
 
 export default function Login() {
   const login = useOAuthLogin();
 
   return (
-    <A href={login("google")} rel="external">
-      Sign in with Google
-    </A>
+    <div>
+      <a href={login("discord")} rel="external">
+        Sign in with Discord
+      </a>
+      <a href={login("google")} rel="external">
+        Sign in with Google
+      </a>
+    </div>
   );
 }
 ```
 
-- To customize the post-login destination, append `?redirect=/dashboard` to the login URL—this value is forwarded as the `redirectTo` parameter in your handler.
+- To customize the post-login destination, append `?redirect=/dashboard` to the login URL—this value is forwarded as the `dest` parameter in your handler.
 - On authentication failure, the user returns to the login page with `?error=<reason>` for custom error handling.
 
 ## 🤝 Contributing
@@ -80,4 +87,4 @@ Contributions are welcome! To add a new provider, copy an existing [provider](sr
 
 ---
 
-⭐ Learn how to setup session context and route protection [here](https://gist.github.com/thomasbuilds/d1f7a2e534189dadb42c429309766d48#file-solidstart-auth-context-md).
+⭐ Learn how to set up session context and route protection [here](https://gist.github.com/thomasbuilds/d1f7a2e534189dadb42c429309766d48#file-solidstart-auth-context-md).
