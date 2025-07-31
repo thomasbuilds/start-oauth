@@ -6,8 +6,9 @@ import type { Configuration } from "./types";
 
 export default function OAuth(config: Configuration) {
   const { password, handler } = config;
-  if (!password || typeof handler !== "function")
-    throw new Error("Invalid OAuth configuration");
+  if (!password) throw new Error("Missing OAuth password");
+  if (typeof handler !== "function") throw new Error("Invalid handler");
+
   return async ({ request: { url }, params: { oauth } }: APIEvent) => {
     if (!isProvider(oauth))
       return new Response("Unknown provider", { status: 404 });
@@ -23,32 +24,40 @@ export default function OAuth(config: Configuration) {
     );
 
     if (params.fallback && !params.code && !params.error) {
-      const state = encodeState(params.fallback, password, params.redirect);
-      return redirect(requestCode({ ...client, redirect_uri, state }));
+      const state = encodeState(
+        { fallback: params.fallback, redirect: params.redirect },
+        password
+      );
+      return redirect(requestCode({ id: client.id, redirect_uri, state }));
     }
 
-    const state = params.state ? decodeState(params.state, password) : null;
-    const validFallback =
-      state?.fallback[0] === "/" && state.fallback[1] !== "/";
-    const error_path = validFallback ? state.fallback : "/";
-
-    if (!state) return redirect(error_path + "?error=Invalid state");
+    if (!params.state) return redirect("/?error=Invalid state");
+    const decoded = decodeState(params.state, password);
+    if (!decoded) return redirect("/?error=Invalid state");
     if (params.error)
       return redirect(
-        error_path + "?error=" + encodeURIComponent(params.error)
+        `${decoded.fallback}?error=${encodeURIComponent(params.error)}`
       );
-    if (!params.code) return redirect(error_path + "?error=Missing code");
+    if (!params.code) return redirect(decoded.fallback + "?error=missing_code");
 
     try {
       const { token_type, access_token } = await requestToken({
-        ...client,
+        id: client.id,
+        secret: client.secret,
         redirect_uri,
         code: params.code,
+        state: params.state,
       });
       const user = await requestUser(`${token_type} ${access_token}`);
-      return handler(user, state.redirect);
-    } catch ({ message }: any) {
-      return redirect(`${error_path}?error=${encodeURIComponent(message)}`);
+      return handler(user, decoded.redirect);
+    } catch (error: unknown) {
+      let msg = error instanceof Error ? error.message : String(error);
+      try {
+        const { error_description, error } = JSON.parse(msg);
+        msg = error_description ?? error ?? msg;
+      } finally {
+        return redirect(`${decoded.fallback}?error=${encodeURIComponent(msg)}`);
+      }
     }
   };
 }

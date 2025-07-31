@@ -1,45 +1,53 @@
-import { encode } from "../utils";
+import {
+  makePkcePair,
+  pkceStore,
+  urlEncode,
+  exchangeToken,
+  fetchUser,
+} from "../utils";
 import type { Methods } from "../types";
 
 const discord: Methods = {
   requestCode({ id, redirect_uri, state }) {
-    const url = "https://discord.com/oauth2/authorize";
-    const params = encode({
-      response_type: "code",
-      scope: ["identify", "email"],
-      client_id: id,
-      redirect_uri,
-      state,
-    });
-    return url + "?" + params;
+    const { verifier, challenge } = makePkcePair();
+    pkceStore.set(state, verifier);
+    return (
+      "https://discord.com/oauth2/authorize?" +
+      urlEncode({
+        response_type: "code",
+        scope: ["identify", "email"],
+        client_id: id,
+        redirect_uri,
+        state,
+        code_challenge: challenge,
+        code_challenge_method: "S256",
+      })
+    );
   },
 
-  async requestToken({ id, secret, code, redirect_uri }) {
-    const response = await fetch("https://discord.com/api/oauth2/token", {
-      method: "post",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({
-        grant_type: "authorization_code",
-        client_id: id,
-        client_secret: secret,
-        code,
-        redirect_uri,
-      }),
-    });
-    if (!response.ok) throw new Error("failed to fetch access token");
-    return response.json();
+  async requestToken({ id, secret, code, redirect_uri, state }) {
+    const verifier = pkceStore.take(state);
+    if (!verifier) throw new Error("Invalid or expired PKCE verifier");
+    return exchangeToken(
+      "https://discord.com/api/oauth2/token",
+      { id, secret },
+      code,
+      redirect_uri,
+      state,
+      verifier
+    );
   },
 
   async requestUser(token) {
-    const response = await fetch("https://discord.com/api/users/@me", {
-      headers: { Authorization: token },
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
+    const { verified, email, username, id, avatar } = await fetchUser(
+      "https://discord.com/api/users/@me",
+      token
+    );
+    if (!verified || !email) throw new Error("Email not verified");
     return {
-      name: data.username,
-      email: data.email.toLowerCase(),
-      image: `https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.png`,
+      name: username,
+      email: email.toLowerCase(),
+      image: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
     };
   },
 };

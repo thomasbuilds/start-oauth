@@ -8,7 +8,7 @@
 
 Secure and lightweight OAuth 2.0 for [SolidStart](https://github.com/solidjs/solid-start). Returns the `name`, `email`, and `image` of authenticated users.
 
-**Supports:** Discord, GitHub, Google, Spotify
+**Supports:** Discord, GitHub, Google, and Spotify
 
 ## 📦 Installation
 
@@ -39,13 +39,13 @@ const config: Configuration = {
     secret: process.env.GOOGLE_SECRET!,
   },
   async handler(user, dest) {
-    // for better security sanitize
-    const validDest = dest?.[0] === "/" && dest[1] !== "/";
-
     // create user session and redirect user
     const session = await getSession();
     await session.update(user);
-    return redirect(validDest ? dest : "/account");
+    return redirect(
+      // for better security sanitize
+      dest.startsWith("/") && !dest.startsWith("//") ? dest : "/defaultRedirect"
+    );
   },
 };
 
