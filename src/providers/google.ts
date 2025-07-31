@@ -22,7 +22,6 @@ const google: Methods = {
     });
     return `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
   },
-
   async requestToken({ id, secret, code, redirect_uri, state }) {
     const verifier = pkceStore.take(state);
     if (!verifier) throw new Error("Invalid or expired PKCE verifier");
@@ -35,7 +34,6 @@ const google: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { email_verified, name, email, picture } = await fetchUser(
       "https://www.googleapis.com/oauth2/v3/userinfo",

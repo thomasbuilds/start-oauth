@@ -11,22 +11,24 @@ export async function fetchWithTimeout(
   }
 }
 
-export async function throwIfBad(res: Response): Promise<any> {
-  const ct = res.headers.get("content-type") || "";
-  if (!res.ok) {
+export async function throwIfBad(response: Response) {
+  const ct = response.headers.get("content-type") || "";
+  if (!response.ok) {
     let body: any;
     try {
       body = ct.includes("application/json")
-        ? await res.json()
-        : await res.text();
+        ? await response.json()
+        : await response.text();
     } catch {
-      body = await res.text().catch(() => null);
+      body = await response.text().catch(() => null);
     }
-    const msgContent =
+    const msg =
       typeof body === "object"
         ? JSON.stringify(body)
-        : String(body) || res.statusText;
-    throw new Error(msgContent);
+        : String(body) || response.statusText;
+    throw new Error(msg);
   }
-  return ct.includes("application/json") ? await res.json() : await res.text();
+  return ct.includes("application/json")
+    ? await response.json()
+    : await response.text();
 }

@@ -22,7 +22,6 @@ const spotify: Methods = {
     });
     return `https://accounts.spotify.com/authorize?${params}`;
   },
-
   async requestToken({ id, secret, code, redirect_uri, state }) {
     const verifier = pkceStore.take(state);
     if (!verifier) throw new Error("Invalid or expired PKCE verifier");
@@ -35,7 +34,6 @@ const spotify: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { email, display_name, images } = await fetchUser(
       "https://api.spotify.com/v1/me",

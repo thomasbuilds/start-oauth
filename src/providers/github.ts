@@ -23,7 +23,6 @@ const github: Methods = {
       })
     );
   },
-
   async requestToken({ id, secret, code, redirect_uri, state }) {
     const verifier = pkceStore.take(state);
     if (!verifier) throw new Error("Invalid or expired PKCE verifier");
@@ -36,7 +35,6 @@ const github: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const [{ name, avatar_url }, emails] = await Promise.all([
       fetchUser("https://api.github.com/user", token),

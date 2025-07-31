@@ -24,7 +24,6 @@ const discord: Methods = {
       })
     );
   },
-
   async requestToken({ id, secret, code, redirect_uri, state }) {
     const verifier = pkceStore.take(state);
     if (!verifier) throw new Error("Invalid or expired PKCE verifier");
@@ -37,7 +36,6 @@ const discord: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { verified, email, username, id, avatar } = await fetchUser(
       "https://discord.com/api/users/@me",
