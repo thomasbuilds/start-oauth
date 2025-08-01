@@ -24,7 +24,7 @@ export default function OAuth(config: Configuration) {
     );
 
     if (params.fallback && !params.code && !params.error) {
-      const { state, challenge } = makeState(
+      const { state, challenge } = await makeState(
         { fallback: params.fallback, redirect: params.redirect },
         password
       );
@@ -34,7 +34,7 @@ export default function OAuth(config: Configuration) {
     }
 
     if (!params.state) return redirect("/?error=Invalid state");
-    const decoded = decodeState(params.state, password);
+    const decoded = await decodeState(params.state, password);
     if (!decoded) return redirect("/?error=Invalid state");
     if (params.error)
       return redirect(

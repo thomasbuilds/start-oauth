@@ -1,24 +1,25 @@
 import { urlEncode } from ".";
-import type { Identifiers } from "../types";
+import type { Identifiers, Token } from "../types";
 
 async function http(url: string, init: RequestInit = {}) {
   const signal = AbortSignal.timeout(5000);
   let response: Response;
   try {
     response = await fetch(url, { ...init, signal });
-  } catch (e) {
-    if (e.name === "AbortError") throw new Error("Request timed out");
-    throw e;
+  } catch (error: unknown) {
+    if ((error as Error).name === "AbortError")
+      throw new Error("Request timed out");
+    throw error;
   }
   if (!response.ok) {
-    let body = await response.text().catch(() => "");
+    const body = await response.text().catch(() => "");
+    const contentType = response.headers.get("content-type");
     throw new Error(
-      response.headers.get("content-type")?.includes("json")
-        ? JSON.stringify(JSON.parse(body))
-        : body || response.statusText
+      contentType?.includes("json") && body ? body : body || response.statusText
     );
   }
-  return response.headers.get("content-type")?.includes("json")
+  const contentType = response.headers.get("content-type");
+  return contentType?.includes("json")
     ? await response.json()
     : await response.text();
 }
@@ -29,7 +30,7 @@ export async function exchangeToken(
   code: string,
   redirect_uri: string,
   verifier: string
-): Promise<{ token_type: string; access_token: string }> {
+): Token {
   const headers: Record<string, string> = {
     "Content-Type": "application/x-www-form-urlencoded",
     Accept: "application/json",

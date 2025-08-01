@@ -8,7 +8,7 @@
 
 Secure and lightweight OAuth 2.0 for [SolidStart](https://github.com/solidjs/solid-start). Returns the `name`, `email`, and `image` of authenticated users.
 
-**Supports:** Discord, GitHub, Google, and Spotify
+**Supports:** Amazon, Discord, GitHub, Google, Linkedin, Microsoft, Spotify, and Yahoo
 
 ## 📦 Installation
 
@@ -62,7 +62,7 @@ In your OAuth provider dashboard, configure the redirect URI to:
 ## 🔒 Security Features
 
 - Stateless PKCE with SHA-256 code challenges.
-- AES-256-GCM encryption for state parameters to prevent tampering.
+- AES-256-GCM encryption for state parameters to prevent tampering, using Web Crypto API for modern performance.
 - Timeout-protected HTTP requests to mitigate hanging connections.
 - Strict validation on fallback URLs to prevent open redirects.
 
