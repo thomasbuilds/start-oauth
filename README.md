@@ -29,22 +29,25 @@ import { redirect } from "@solidjs/router";
 import OAuth, { type Configuration } from "start-oauth";
 
 const config: Configuration = {
-  password: process.env.SESSION_SECRET!,
+  password: process.env.SESSION_SECRET,
   discord: {
-    id: process.env.DISCORD_ID!,
-    secret: process.env.DISCORD_SECRET!,
+    id: process.env.DISCORD_ID,
+    secret: process.env.DISCORD_SECRET,
   },
   google: {
-    id: process.env.GOOGLE_ID!,
-    secret: process.env.GOOGLE_SECRET!,
+    id: process.env.GOOGLE_ID,
+    secret: process.env.GOOGLE_SECRET,
   },
-  async handler(user, dest) {
-    // create user session and redirect user
+  async handler(user, redirectTo) {
+    // Add your logic (e.g. db call, create session)
     const session = await getSession();
     await session.update(user);
+
     return redirect(
-      // for better security sanitize
-      dest.startsWith("/") && !dest.startsWith("//") ? dest : "/defaultRedirect"
+      // only allow internal redirects
+      redirectTo?.startsWith("/") && !redirectTo.startsWith("//")
+        ? redirectTo
+        : "/default"
     );
   },
 };
@@ -55,6 +58,13 @@ export const GET = OAuth(config);
 In your OAuth provider dashboard, configure the redirect URI to:
 
 `https://your-domain.com/api/oauth/[provider]`
+
+## 🔒 Security Features
+
+- Stateless PKCE with SHA-256 code challenges.
+- AES-256-GCM encryption for state parameters to prevent tampering.
+- Timeout-protected HTTP requests to mitigate hanging connections.
+- Strict validation on fallback URLs to prevent open redirects.
 
 ## 💡 Usage
 
@@ -78,7 +88,7 @@ export default function Login() {
 }
 ```
 
-- To customize the post-login destination, append `?redirect=/dashboard` to the login URL—this value is forwarded as the `dest` parameter in your handler.
+- To customize the post-login destination, append `?redirect=/dashboard` to the login URL—this value is forwarded as the `redirectTo` parameter in your handler.
 - On authentication failure, the user returns to the login page with `?error=<reason>` for custom error handling.
 
 ## 🤝 Contributing

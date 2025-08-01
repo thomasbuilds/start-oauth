@@ -1,6 +1,6 @@
 import { redirect, useLocation, useSearchParams } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
-import { encodeState, decodeState } from "./utils";
+import { makeState, decodeState, parseError } from "./utils";
 import { providers, isProvider, type Provider } from "./providers";
 import type { Configuration } from "./types";
 
@@ -24,11 +24,13 @@ export default function OAuth(config: Configuration) {
     );
 
     if (params.fallback && !params.code && !params.error) {
-      const state = encodeState(
+      const { state, challenge } = makeState(
         { fallback: params.fallback, redirect: params.redirect },
         password
       );
-      return redirect(requestCode({ id: client.id, redirect_uri, state }));
+      return redirect(
+        requestCode({ id: client.id, redirect_uri, state, challenge })
+      );
     }
 
     if (!params.state) return redirect("/?error=Invalid state");
@@ -46,18 +48,12 @@ export default function OAuth(config: Configuration) {
         secret: client.secret,
         redirect_uri,
         code: params.code,
-        state: params.state,
+        verifier: decoded.verifier,
       });
       const user = await requestUser(`${token_type} ${access_token}`);
       return handler(user, decoded.redirect);
     } catch (error: unknown) {
-      let msg = error instanceof Error ? error.message : String(error);
-      try {
-        const { error_description, error } = JSON.parse(msg);
-        msg = error_description ?? error ?? msg;
-      } finally {
-        return redirect(`${decoded.fallback}?error=${encodeURIComponent(msg)}`);
-      }
+      return redirect(`${decoded.fallback}?error=${parseError(error)}`);
     }
   };
 }

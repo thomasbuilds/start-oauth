@@ -19,10 +19,14 @@ export type Configuration = Partial<Record<Provider, Identifiers>> & {
 
 export interface Methods {
   requestCode(
-    config: Pick<Identifiers, "id"> & { redirect_uri: string; state: string }
+    config: Pick<Identifiers, "id"> & {
+      redirect_uri: string;
+      state: string;
+      challenge: string;
+    }
   ): string;
   requestToken(
-    cfg: Identifiers & { redirect_uri: string; code: string; state: string }
+    cfg: Identifiers & { redirect_uri: string; code: string; verifier: string }
   ): Promise<{ token_type: string; access_token: string }>;
   requestUser(token: string): Promise<User>;
 }

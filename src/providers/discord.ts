@@ -1,41 +1,30 @@
-import {
-  makePkcePair,
-  pkceStore,
-  urlEncode,
-  exchangeToken,
-  fetchUser,
-} from "../utils";
+import { urlEncode, exchangeToken, fetchUser } from "../utils";
 import type { Methods } from "../types";
 
 const discord: Methods = {
-  requestCode({ id, redirect_uri, state }) {
-    const { verifier, challenge } = makePkcePair();
-    pkceStore.set(state, verifier);
-    return (
-      "https://discord.com/oauth2/authorize?" +
-      urlEncode({
-        response_type: "code",
-        scope: ["identify", "email"],
-        client_id: id,
-        redirect_uri,
-        state,
-        code_challenge: challenge,
-        code_challenge_method: "S256",
-      })
-    );
+  requestCode({ id, redirect_uri, state, challenge }) {
+    const params = urlEncode({
+      response_type: "code",
+      scope: ["identify", "email"],
+      client_id: id,
+      redirect_uri,
+      state,
+      code_challenge: challenge,
+      code_challenge_method: "S256",
+    });
+    return "https://discord.com/oauth2/authorize?" + params;
   },
-  async requestToken({ id, secret, code, redirect_uri, state }) {
-    const verifier = pkceStore.take(state);
-    if (!verifier) throw new Error("Invalid or expired PKCE verifier");
+
+  async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://discord.com/api/oauth2/token",
       { id, secret },
       code,
       redirect_uri,
-      state,
       verifier
     );
   },
+
   async requestUser(token) {
     const { verified, email, username, id, avatar } = await fetchUser(
       "https://discord.com/api/users/@me",

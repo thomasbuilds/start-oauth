@@ -1,45 +1,36 @@
-import {
-  makePkcePair,
-  pkceStore,
-  urlEncode,
-  exchangeToken,
-  fetchUser,
-} from "../utils";
+import { urlEncode, exchangeToken, fetchUser } from "../utils";
 import type { Methods } from "../types";
 
 const spotify: Methods = {
-  requestCode({ id, redirect_uri, state }) {
-    const { verifier, challenge } = makePkcePair();
-    pkceStore.set(state, verifier);
+  requestCode({ id, redirect_uri, state, challenge }) {
     const params = urlEncode({
-      response_type: "code",
-      scope: "user-read-email",
       client_id: id,
+      response_type: "code",
       redirect_uri,
+      scope: "user-read-private user-read-email",
       state,
       code_challenge: challenge,
       code_challenge_method: "S256",
     });
-    return `https://accounts.spotify.com/authorize?${params}`;
+    return "https://accounts.spotify.com/authorize?" + params;
   },
-  async requestToken({ id, secret, code, redirect_uri, state }) {
-    const verifier = pkceStore.take(state);
-    if (!verifier) throw new Error("Invalid or expired PKCE verifier");
+
+  async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://accounts.spotify.com/api/token",
       { id, secret },
       code,
       redirect_uri,
-      state,
       verifier
     );
   },
+
   async requestUser(token) {
-    const { email, display_name, images } = await fetchUser(
+    const { display_name, email, images } = await fetchUser(
       "https://api.spotify.com/v1/me",
       token
     );
-    if (!email) throw new Error("Email not verified");
+    if (!email) throw new Error("Email not available");
     return {
       name: display_name,
       email: email.toLowerCase(),
