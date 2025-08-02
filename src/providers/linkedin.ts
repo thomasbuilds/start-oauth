@@ -14,7 +14,6 @@ const linkedin: Methods = {
     });
     return "https://www.linkedin.com/oauth/v2/authorization?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://www.linkedin.com/oauth/v2/accessToken",
@@ -24,7 +23,6 @@ const linkedin: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { given_name, family_name, email, picture } = await fetchUser(
       "https://api.linkedin.com/v2/userinfo",

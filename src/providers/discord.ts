@@ -14,7 +14,6 @@ const discord: Methods = {
     });
     return "https://discord.com/oauth2/authorize?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://discord.com/api/oauth2/token",
@@ -24,7 +23,6 @@ const discord: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { verified, email, username, id, avatar } = await fetchUser(
       "https://discord.com/api/users/@me",

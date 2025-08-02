@@ -13,7 +13,6 @@ const github: Methods = {
     });
     return "https://github.com/login/oauth/authorize?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://github.com/login/oauth/access_token",
@@ -23,7 +22,6 @@ const github: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const [{ name, avatar_url }, emails] = await Promise.all([
       fetchUser("https://api.github.com/user", token),

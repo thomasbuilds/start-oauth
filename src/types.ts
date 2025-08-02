@@ -21,14 +21,18 @@ export type Token = Promise<{ token_type: string; access_token: string }>;
 
 export interface Methods {
   requestCode(
-    config: Pick<Identifiers, "id"> & {
+    params: Pick<Identifiers, "id"> & {
       redirect_uri: string;
       state: string;
       challenge: string;
     }
   ): string;
   requestToken(
-    cfg: Identifiers & { redirect_uri: string; code: string; verifier: string }
+    params: Identifiers & {
+      redirect_uri: string;
+      code: string;
+      verifier: string;
+    }
   ): Token;
   requestUser(token: string): Promise<User>;
 }

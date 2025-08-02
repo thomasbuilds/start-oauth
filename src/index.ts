@@ -40,7 +40,7 @@ export default function OAuth(config: Configuration) {
       return redirect(
         `${decoded.fallback}?error=${encodeURIComponent(params.error)}`
       );
-    if (!params.code) return redirect(decoded.fallback + "?error=missing_code");
+    if (!params.code) return redirect(decoded.fallback + "?error=Missing code");
 
     try {
       const { token_type, access_token } = await requestToken({

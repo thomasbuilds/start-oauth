@@ -14,7 +14,6 @@ const spotify: Methods = {
     });
     return "https://accounts.spotify.com/authorize?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://accounts.spotify.com/api/token",
@@ -24,7 +23,6 @@ const spotify: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { display_name, email, images } = await fetchUser(
       "https://api.spotify.com/v1/me",

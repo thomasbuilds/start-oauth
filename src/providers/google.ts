@@ -14,7 +14,6 @@ const google: Methods = {
     });
     return "https://accounts.google.com/o/oauth2/v2/auth?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://oauth2.googleapis.com/token",
@@ -24,7 +23,6 @@ const google: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { name, email, picture } = await fetchUser(
       "https://www.googleapis.com/oauth2/v3/userinfo",

@@ -14,7 +14,6 @@ const amazon: Methods = {
     });
     return "https://www.amazon.com/ap/oa?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://api.amazon.com/auth/o2/token",
@@ -24,7 +23,6 @@ const amazon: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { name, email } = await fetchUser(
       "https://api.amazon.com/user/profile",

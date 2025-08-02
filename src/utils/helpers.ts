@@ -1,5 +1,13 @@
-import { urlEncode } from ".";
 import type { Identifiers, Token } from "../types";
+
+export const urlEncode = (p: Record<string, string | string[]>) => {
+  const params = new URLSearchParams();
+  for (const [k, v] of Object.entries(p)) {
+    const value = Array.isArray(v) ? v.join(" ") : v;
+    params.set(k, value);
+  }
+  return params.toString();
+};
 
 async function http(url: string, init: RequestInit = {}) {
   const signal = AbortSignal.timeout(5000);

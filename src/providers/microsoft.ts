@@ -16,7 +16,6 @@ const microsoft: Methods = {
       "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" + params
     );
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://login.microsoftonline.com/common/oauth2/v2.0/token",
@@ -26,7 +25,6 @@ const microsoft: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { displayName, mail } = await fetchUser(
       "https://graph.microsoft.com/v1.0/me?$select=displayName,mail",

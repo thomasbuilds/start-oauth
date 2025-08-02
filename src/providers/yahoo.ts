@@ -14,7 +14,6 @@ const yahoo: Methods = {
     });
     return "https://api.login.yahoo.com/oauth2/request_auth?" + params;
   },
-
   async requestToken({ id, secret, code, redirect_uri, verifier }) {
     return exchangeToken(
       "https://api.login.yahoo.com/oauth2/get_token",
@@ -24,7 +23,6 @@ const yahoo: Methods = {
       verifier
     );
   },
-
   async requestUser(token) {
     const { name, email, picture } = await fetchUser(
       "https://api.login.yahoo.com/openid/v1/userinfo",
