@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/npm/dm/start-oauth.svg?style=for-the-badge)](https://www.npmjs.com/package/start-oauth)
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
 
-Secure and lightweight OAuth 2.0 for [SolidStart](https://github.com/solidjs/solid-start). Returns the `name`, `email`, and `image` of authenticated users.
+Secure and lightweight OAuth 2.1 for [SolidStart](https://github.com/solidjs/solid-start). Returns the `name`, `email`, and `image` of authenticated users.
 
 **Supports:** Amazon, Discord, GitHub, Google, Linkedin, Microsoft, Spotify, and Yahoo
 
