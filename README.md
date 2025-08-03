@@ -70,7 +70,7 @@ In your OAuth provider dashboard, configure the redirect URI to:
 
 ```tsx
 // for example routes/login.tsx
-import { useOAuthLogin } from "start-oauth";
+import useOAuthLogin from "start-oauth/client";
 
 export default function Login() {
   const login = useOAuthLogin();

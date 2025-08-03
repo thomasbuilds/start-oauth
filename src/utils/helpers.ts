@@ -1,15 +1,6 @@
 import type { Identifiers, Token } from "../types";
 
-export const urlEncode = (p: Record<string, string | string[]>) => {
-  const params = new URLSearchParams();
-  for (const [k, v] of Object.entries(p)) {
-    const value = Array.isArray(v) ? v.join(" ") : v;
-    params.set(k, value);
-  }
-  return params.toString();
-};
-
-async function http(url: string, init: RequestInit = {}) {
+async function fetchWithTimeout(url: string, init: RequestInit = {}) {
   const signal = AbortSignal.timeout(5000);
   let response: Response;
   try {
@@ -32,6 +23,15 @@ async function http(url: string, init: RequestInit = {}) {
     : await response.text();
 }
 
+export function urlEncode(p: Record<string, string | string[]>) {
+  const params = new URLSearchParams();
+  for (const [k, v] of Object.entries(p)) {
+    const value = Array.isArray(v) ? v.join(" ") : v;
+    params.set(k, value);
+  }
+  return params.toString();
+}
+
 export async function exchangeToken(
   url: string,
   creds: Identifiers,
@@ -46,7 +46,7 @@ export async function exchangeToken(
   if (creds.secret)
     headers.Authorization =
       "Basic " + Buffer.from(`${creds.id}:${creds.secret}`).toString("base64");
-  return http(url, {
+  return fetchWithTimeout(url, {
     method: "POST",
     headers,
     body: urlEncode({
@@ -59,4 +59,4 @@ export async function exchangeToken(
 }
 
 export const fetchUser = (userUrl: string, token: string) =>
-  http(userUrl, { headers: { Authorization: token } });
+  fetchWithTimeout(userUrl, { headers: { Authorization: token } });
