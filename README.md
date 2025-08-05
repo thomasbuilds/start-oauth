@@ -59,14 +59,7 @@ In your OAuth provider dashboard, configure the redirect URI to:
 
 `https://your-domain.com/api/oauth/[provider]`
 
-## 🔒 Security Features
-
-- Stateless PKCE with SHA-256 code challenges.
-- AES-256-GCM encryption for state parameters to prevent tampering, using Web Crypto API for modern performance.
-- Timeout-protected HTTP requests to mitigate hanging connections.
-- Strict validation on fallback URLs to prevent open redirects.
-
-## 💡 Usage
+## 🔧 Usage
 
 ```tsx
 // for example routes/login.tsx
@@ -91,10 +84,21 @@ export default function Login() {
 - To customize the post-login destination, append `?redirect=/dashboard` to the login URL—this value is forwarded as the `redirectTo` parameter in your handler.
 - On authentication failure, the user returns to the login page with `?error=<reason>` for custom error handling.
 
+## 🚀 Example
+
+Explore `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/solid-start/tree/main/examples/with-auth) example.
+
+```bash
+pnpm create solid --solidstart --ts --template with-auth with-auth-example
+```
+
+## 🔒 Security Features
+
+- Stateless PKCE with SHA-256 code challenges.
+- AES-256-GCM encryption for state parameters to prevent tampering, using Web Crypto API for modern performance.
+- Timeout-protected HTTP requests to mitigate hanging connections.
+- Strict validation on fallback URLs to prevent open redirects.
+
 ## 🤝 Contributing
 
 Contributions are welcome! To add a new provider, copy an existing [provider](src/providers/google.ts), update the links to match the new configuration, and submit a PR 🎉.
-
----
-
-⭐ Learn how to set up session context and route protection [here](https://gist.github.com/thomasbuilds/d1f7a2e534189dadb42c429309766d48#file-solidstart-auth-context-md).
