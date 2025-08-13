@@ -1,0 +1,41 @@
+{
+  "name": "start-oauth",
+  "version": "1.2.4",
+  "description": "Secure and lightweight OAuth 2.1 for SolidStart",
+  "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasbuilds/start-oauth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thomasbuilds/start-oauth/issues"
+  },
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "author": "thomasbuilds",
+  "keywords": [
+    "api",
+    "oauth2",
+    "solidstart"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@solidjs/router": "^0.15.3",
+    "@solidjs/start": "^1.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
