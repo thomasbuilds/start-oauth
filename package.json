@@ -1,7 +1,7 @@
 {
   "name": "start-oauth",
-  "version": "1.2.4",
-  "description": "Secure and lightweight OAuth 2.1 for SolidStart",
+  "version": "1.2.5",
+  "description": "Secure and lightweight OAuth2 for SolidStart",
   "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
   "repository": {
     "type": "git",
