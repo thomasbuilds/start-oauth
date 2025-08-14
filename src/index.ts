@@ -20,16 +20,16 @@ export default function OAuth(config: Configuration) {
     const { searchParams, origin, pathname } = new URL(url);
     const redirect_uri = origin + pathname;
     const params: Record<string, string | undefined> = Object.fromEntries(
-      searchParams.entries()
+      searchParams.entries(),
     );
 
     if (params.fallback && !params.code && !params.error) {
       const { state, challenge } = await makeState(
         { fallback: params.fallback, redirect: params.redirect },
-        password
+        password,
       );
       return redirect(
-        requestCode({ id: client.id, redirect_uri, state, challenge })
+        requestCode({ id: client.id, redirect_uri, state, challenge }),
       );
     }
 
@@ -38,19 +38,23 @@ export default function OAuth(config: Configuration) {
     if (!decoded) return redirect("/?error=Invalid state");
     if (params.error)
       return redirect(
-        `${decoded.fallback}?error=${encodeURIComponent(params.error)}`
+        `${decoded.fallback}?error=${encodeURIComponent(params.error)}`,
       );
     if (!params.code) return redirect(decoded.fallback + "?error=Missing code");
 
     try {
-      const { token_type, access_token } = await requestToken({
+      const { token_type, access_token, refresh_token } = await requestToken({
         id: client.id,
         secret: client.secret,
         redirect_uri,
         code: params.code,
         verifier: decoded.verifier,
       });
-      const user = await requestUser(`${token_type} ${access_token}`);
+      const user = await {
+        ...requestUser(`${token_type} ${access_token}`),
+        access_token,
+        refresh_token,
+      };
       return handler(user, decoded.redirect);
     } catch (error: unknown) {
       return redirect(`${decoded.fallback}?error=${parseError(error)}`);
