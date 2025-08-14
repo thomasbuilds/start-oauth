@@ -11,7 +11,6 @@ export interface User {
   email: string;
   image?: string;
   access_token?: string;
-  refresh_token?: string;
 }
 
 export type Configuration = Partial<Record<Provider, Identifiers>> & {
@@ -22,7 +21,6 @@ export type Configuration = Partial<Record<Provider, Identifiers>> & {
 export type Token = Promise<{
   token_type: string;
   access_token: string;
-  refresh_token: string;
 }>;
 
 export interface Methods {

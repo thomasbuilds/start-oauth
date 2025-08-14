@@ -43,7 +43,7 @@ export default function OAuth(config: Configuration) {
     if (!params.code) return redirect(decoded.fallback + "?error=Missing code");
 
     try {
-      const { token_type, access_token, refresh_token } = await requestToken({
+      const { token_type, access_token } = await requestToken({
         id: client.id,
         secret: client.secret,
         redirect_uri,
@@ -53,7 +53,6 @@ export default function OAuth(config: Configuration) {
       const user = await {
         ...requestUser(`${token_type} ${access_token}`),
         access_token,
-        refresh_token,
       };
       return handler(user, decoded.redirect);
     } catch (error: unknown) {
