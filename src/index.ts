@@ -51,7 +51,9 @@ export default function OAuth(config: Configuration) {
         verifier: decoded.verifier,
       });
       const user = await {
-        ...requestUser(`${token_type} ${access_token}`),
+      const userInfo = await requestUser(`${token_type} ${access_token}`);
+      const user = {
+        ...userInfo,
         access_token,
       };
       return handler(user, decoded.redirect);
