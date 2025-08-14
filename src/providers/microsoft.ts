@@ -31,7 +31,11 @@ const microsoft: Methods = {
       token
     );
     if (!mail) throw new Error("Email not available");
-    return { name: displayName, email: mail.toLowerCase() };
+    return {
+      name: displayName,
+      email: mail.toLowerCase(),
+      oauth: { provider: "microsoft", token },
+    };
   },
 };
 

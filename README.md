@@ -7,7 +7,7 @@
 [![Stars](https://img.shields.io/github/stars/thomasbuilds/start-oauth.svg?style=for-the-badge&color=yellow)](https://github.com/thomasbuilds/start-oauth)
 [![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge)](https://github.com/prettier/prettier)
 
-A secure and lightweight OAuth 2.1 implementation for [SolidStart](https://github.com/solidjs/solid-start), providing `name`, `email`, and, when available, `image` for authenticated users.
+A lightweight and secure OAuth 2.1 implementation for [SolidStart](https://github.com/solidjs/solid-start). Access the `name`, `email`, and, when available, `image` of authenticated users. For extended API usage, the `provider` name and `token` (_access_token_) are included via the `oauth` object.
 
 **Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, and Yahoo.
 
@@ -47,6 +47,7 @@ const config: Configuration = {
     const session = await getSession();
     await session.update(user);
 
+    // then you must redirect user
     return redirect(
       // only allow internal redirects
       redirectTo?.startsWith("/") && !redirectTo.startsWith("//")
@@ -112,4 +113,4 @@ bun create solid@latest --solidstart --ts --template with-auth
 
 ## 🤝 Contributing
 
-Contributions are welcome! To add a new provider, duplicate an existing [provider](src/providers/google.ts), update the configuration links, and submit a pull request 🎉.
+Contributions are welcome! To add a new provider, duplicate an existing [provider](src/providers/google.ts), update the configuration links, and submit a pull request!

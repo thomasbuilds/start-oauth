@@ -33,6 +33,7 @@ const github: Methods = {
       name,
       email: primary.email.toLowerCase(),
       image: avatar_url,
+      oauth: { provider: "github", token },
     };
   },
 };

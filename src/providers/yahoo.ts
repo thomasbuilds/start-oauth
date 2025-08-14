@@ -29,7 +29,12 @@ const yahoo: Methods = {
       token
     );
     if (!email) throw new Error("Email not available");
-    return { name, email: email.toLowerCase(), image: picture };
+    return {
+      name,
+      email: email.toLowerCase(),
+      image: picture,
+      oauth: { provider: "yahoo", token },
+    };
   },
 };
 

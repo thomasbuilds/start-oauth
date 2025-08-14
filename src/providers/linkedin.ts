@@ -33,6 +33,7 @@ const linkedin: Methods = {
       name: `${given_name} ${family_name}`,
       email: email.toLowerCase(),
       image: picture,
+      oauth: { provider: "linkedin", token },
     };
   },
 };

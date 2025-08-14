@@ -33,6 +33,7 @@ const google: Methods = {
       name,
       email: email.toLowerCase(),
       image: picture,
+      oauth: { provider: "google", token },
     };
   },
 };

@@ -1,11 +1,11 @@
 import { useLocation, useSearchParams } from "@solidjs/router";
-import type { Provider } from "./providers";
+import type { Providers } from "./providers";
 
 export default function useOAuthLogin() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  return (provider: Provider) => {
+  return (provider: Providers) => {
     const params = new URLSearchParams();
     params.set("fallback", location.pathname);
     if (typeof searchParams.redirect === "string")

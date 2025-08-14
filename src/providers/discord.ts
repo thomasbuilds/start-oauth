@@ -33,6 +33,7 @@ const discord: Methods = {
       name: username,
       email: email.toLowerCase(),
       image: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
+      oauth: { provider: "discord", token },
     };
   },
 };

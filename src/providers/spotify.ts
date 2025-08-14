@@ -33,6 +33,7 @@ const spotify: Methods = {
       name: display_name,
       email: email.toLowerCase(),
       image: images?.[0]?.url,
+      oauth: { provider: "spotify", token },
     };
   },
 };

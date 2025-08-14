@@ -29,7 +29,11 @@ const amazon: Methods = {
       token
     );
     if (!email) throw new Error("Email not available");
-    return { name, email: email.toLowerCase() };
+    return {
+      name,
+      email: email.toLowerCase(),
+      oauth: { provider: "amazon", token },
+    };
   },
 };
 
