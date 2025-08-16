@@ -42,10 +42,10 @@ const config: Configuration = {
     id: process.env.GOOGLE_ID,
     secret: process.env.GOOGLE_SECRET,
   },
-  async handler(user, redirectTo) {
+  async handler({ name, email, image, oauth }, redirectTo) {
     // implement your logic (e.g. database call, session creation)
     const session = await getSession();
-    await session.update(user);
+    await session.update({ name, email, image });
 
     // then you must redirect user
     return redirect(
