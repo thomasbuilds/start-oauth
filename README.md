@@ -12,7 +12,7 @@
 Lightweight and secure OAuth 2.1 for [SolidStart](https://github.com/solidjs/solid-start) — access the `name`, `email`, and `image` of authenticated users.
 For extended usage, the `provider` name and access `token` are included in the `oauth` object.
 
-**Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, and Yahoo
+**Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, X, and Yahoo
 
 ## Installation
 
