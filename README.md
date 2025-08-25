@@ -19,7 +19,7 @@ For extended usage, the `provider` name and access `token` are included in the `
 Install `start-oauth` as a dependency in your **SolidStart** app
 
 ```bash
-# or pnpm, bun...
+# use npm, pnpm, or bun
 npm add start-oauth
 ```
 
@@ -92,8 +92,18 @@ export default function Login() {
 See `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/solid-start/tree/main/examples/with-auth) example
 
 ```bash
-# or pnpm, bun...
+# using npm
 npm create solid -- --s --t with-auth
+```
+
+```bash
+# using pnpm
+pnpm create solid --s --t with-auth
+```
+
+```bash
+# using bun
+bun create solid --s --t with-auth
 ```
 
 ## Security Features
