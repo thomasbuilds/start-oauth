@@ -37,17 +37,17 @@ Create a catch-all API route at `routes/api/oauth/[...oauth].ts`
 
 ```ts
 import { redirect } from "@solidjs/router";
-import OAuth, { type Configuration } from "start-oauth";
+import OAuth from "start-oauth";
 
-const config: Configuration = {
-  password: process.env.SESSION_SECRET,
+export const GET = OAuth({
+  password: process.env.SESSION_SECRET!,
   discord: {
-    id: process.env.DISCORD_ID,
-    secret: process.env.DISCORD_SECRET,
+    id: process.env.DISCORD_ID!,
+    secret: process.env.DISCORD_SECRET!,
   },
   google: {
-    id: process.env.GOOGLE_ID,
-    secret: process.env.GOOGLE_SECRET,
+    id: process.env.GOOGLE_ID!,
+    secret: process.env.GOOGLE_SECRET!,
   },
   async handler({ name, email, image, oauth }, redirectTo) {
     // implement your logic (e.g. database call, session creation)
@@ -59,12 +59,10 @@ const config: Configuration = {
       // only allow internal redirects
       redirectTo?.startsWith("/") && !redirectTo.startsWith("//")
         ? redirectTo
-        : "/default"
+        : "/defaultPage"
     );
   },
-};
-
-export const GET = OAuth(config);
+});
 ```
 
 In your OAuth provider's dashboard, set the redirect URIs
