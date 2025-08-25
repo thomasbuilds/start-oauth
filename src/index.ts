@@ -1,7 +1,7 @@
-import { redirect } from "@solidjs/router";
+import { redirect, useLocation, useSearchParams } from "@solidjs/router";
 import type { APIEvent } from "@solidjs/start/server";
 import { makeState, decodeState, parseError } from "./utils";
-import { providers, isProvider } from "./providers";
+import { providers, isProvider, type Providers } from "./providers";
 import type { Configuration } from "./types";
 
 export default function OAuth(config: Configuration) {
@@ -48,7 +48,7 @@ export default function OAuth(config: Configuration) {
         secret: client.secret,
         redirect_uri,
         code: params.code,
-        verifier: decoded.verifier,
+        verifier: decoded.verifier
       });
       const user = await requestUser(`${token_type} ${access_token}`);
       return handler(user, decoded.redirect);
@@ -58,4 +58,15 @@ export default function OAuth(config: Configuration) {
   };
 }
 
-export type { Configuration };
+export function useOAuthLogin() {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  return (provider: Providers) => {
+    const params = new URLSearchParams();
+    params.set("fallback", location.pathname);
+    if (typeof searchParams.redirect === "string")
+      params.set("redirect", searchParams.redirect);
+    return `/api/oauth/${provider}?${params.toString()}`;
+  };
+}

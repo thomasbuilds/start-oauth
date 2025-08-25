@@ -9,7 +9,7 @@ const github: Methods = {
       redirect_uri,
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://github.com/login/oauth/authorize?" + params;
   },
@@ -25,7 +25,7 @@ const github: Methods = {
   async requestUser(token) {
     const [{ name, avatar_url }, emails] = await Promise.all([
       fetchUser("https://api.github.com/user", token),
-      fetchUser("https://api.github.com/user/emails", token),
+      fetchUser("https://api.github.com/user/emails", token)
     ]);
     const primary = emails.find(({ primary, verified }) => primary && verified);
     if (!primary) throw new Error("Email not verified");
@@ -33,9 +33,9 @@ const github: Methods = {
       name,
       email: primary.email.toLowerCase(),
       image: avatar_url,
-      oauth: { provider: "github", token },
+      oauth: { provider: "github", token }
     };
-  },
+  }
 };
 
 export default github;

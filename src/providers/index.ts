@@ -17,7 +17,7 @@ export const providers = {
   microsoft,
   spotify,
   x,
-  yahoo,
+  yahoo
 } as const;
 
 export const isProvider = (str: string): str is Providers =>

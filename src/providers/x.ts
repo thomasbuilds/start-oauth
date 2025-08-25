@@ -10,7 +10,7 @@ const x: Methods = {
       scope: "tweet.read users.read offline.access",
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://x.com/i/oauth2/authorize?" + params;
   },
@@ -33,9 +33,9 @@ const x: Methods = {
       name: data.name,
       email: data.confirmed_email.toLowerCase(),
       image: data.profile_image_url,
-      oauth: { provider: "x", token },
+      oauth: { provider: "x", token }
     };
-  },
+  }
 };
 
 export default x;

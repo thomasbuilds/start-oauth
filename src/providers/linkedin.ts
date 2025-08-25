@@ -10,7 +10,7 @@ const linkedin: Methods = {
       scope: ["openid", "profile", "email"],
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://www.linkedin.com/oauth/v2/authorization?" + params;
   },
@@ -33,9 +33,9 @@ const linkedin: Methods = {
       name: `${given_name} ${family_name}`,
       email: email.toLowerCase(),
       image: picture,
-      oauth: { provider: "linkedin", token },
+      oauth: { provider: "linkedin", token }
     };
-  },
+  }
 };
 
 export default linkedin;

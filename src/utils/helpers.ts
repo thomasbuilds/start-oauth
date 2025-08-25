@@ -41,7 +41,7 @@ export async function exchangeToken(
 ): Token {
   const headers: Record<string, string> = {
     "Content-Type": "application/x-www-form-urlencoded",
-    Accept: "application/json",
+    Accept: "application/json"
   };
   if (creds.secret)
     headers.Authorization =
@@ -53,8 +53,8 @@ export async function exchangeToken(
       grant_type: "authorization_code",
       code,
       redirect_uri,
-      code_verifier: verifier,
-    }),
+      code_verifier: verifier
+    })
   });
 }
 

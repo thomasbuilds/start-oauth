@@ -10,7 +10,7 @@ const spotify: Methods = {
       scope: "user-read-private user-read-email",
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://accounts.spotify.com/authorize?" + params;
   },
@@ -33,9 +33,9 @@ const spotify: Methods = {
       name: display_name,
       email: email.toLowerCase(),
       image: images?.[0]?.url,
-      oauth: { provider: "spotify", token },
+      oauth: { provider: "spotify", token }
     };
-  },
+  }
 };
 
 export default spotify;

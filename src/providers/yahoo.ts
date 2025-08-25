@@ -10,7 +10,7 @@ const yahoo: Methods = {
       scope: ["openid", "profile", "email"],
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://api.login.yahoo.com/oauth2/request_auth?" + params;
   },
@@ -33,9 +33,9 @@ const yahoo: Methods = {
       name,
       email: email.toLowerCase(),
       image: picture,
-      oauth: { provider: "yahoo", token },
+      oauth: { provider: "yahoo", token }
     };
-  },
+  }
 };
 
 export default yahoo;

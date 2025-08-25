@@ -10,7 +10,7 @@ const google: Methods = {
       scope: "profile email",
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://accounts.google.com/o/oauth2/v2/auth?" + params;
   },
@@ -33,9 +33,9 @@ const google: Methods = {
       name,
       email: email.toLowerCase(),
       image: picture,
-      oauth: { provider: "google", token },
+      oauth: { provider: "google", token }
     };
-  },
+  }
 };
 
 export default google;

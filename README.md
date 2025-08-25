@@ -16,19 +16,11 @@ For extended usage, the `provider` name and access `token` are included in the `
 
 ## Installation
 
-```bash
-# using npm
-npm install start-oauth
-```
+Install `start-oauth` as a dependency in your **SolidStart** app
 
 ```bash
-# using pnpm
-pnpm add start-oauth
-```
-
-```bash
-# using bun
-bun add start-oauth
+# or pnpm, bun...
+npm add start-oauth
 ```
 
 ## Configuration
@@ -43,11 +35,11 @@ export const GET = OAuth({
   password: process.env.SESSION_SECRET!,
   discord: {
     id: process.env.DISCORD_ID!,
-    secret: process.env.DISCORD_SECRET!,
+    secret: process.env.DISCORD_SECRET!
   },
   google: {
     id: process.env.GOOGLE_ID!,
-    secret: process.env.GOOGLE_SECRET!,
+    secret: process.env.GOOGLE_SECRET!
   },
   async handler({ name, email, image, oauth }, redirectTo) {
     // implement your logic (e.g. database call, session creation)
@@ -61,7 +53,7 @@ export const GET = OAuth({
         ? redirectTo
         : "/defaultPage"
     );
-  },
+  }
 });
 ```
 
@@ -73,8 +65,8 @@ In your OAuth provider's dashboard, set the redirect URIs
 ## Usage
 
 ```tsx
-// for example routes/login.tsx
-import useOAuthLogin from "start-oauth/client";
+// for example in routes/login.tsx
+import { useOAuthLogin } from "start-oauth";
 
 export default function Login() {
   const login = useOAuthLogin();
@@ -100,18 +92,8 @@ export default function Login() {
 See `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/solid-start/tree/main/examples/with-auth) example
 
 ```bash
-# using npm
+# or pnpm, bun...
 npm create solid -- --s --t with-auth
-```
-
-```bash
-# using pnpm
-pnpm create solid --s --t with-auth
-```
-
-```bash
-# using bun
-bun create solid --s --t with-auth
 ```
 
 ## Security Features
@@ -120,7 +102,3 @@ bun create solid --s --t with-auth
 - AES-256-GCM encryption for state parameters to prevent tampering
 - Timeout-protected HTTP requests to avoid hanging connections
 - Strict validation of fallback URLs to prevent open redirects
-
-## Contributing
-
-Contributions are welcome! To add a new provider, duplicate an existing [provider](src/providers/google.ts), update the configuration links, and submit a pull request!
