@@ -2,7 +2,7 @@
 
 If you find a bug or have an idea for improvement, please [open an issue](https://github.com/thomasbuilds/start-oauth/issues) on GitHub. Provide as much detail as possible, including steps to reproduce the issue if applicable.
 
-## Adding a New Provider
+## Adding Providers
 
 To add support for a new OAuth provider
 
