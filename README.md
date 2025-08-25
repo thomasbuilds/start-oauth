@@ -1,6 +1,6 @@
-[![Banner](https://assets.solidjs.com/banner?background=tiles&project=oauth)](https://github.com/solidjs)
-
 <div align="center">
+
+[![Banner](https://assets.solidjs.com/banner?background=tiles&type=Start&project=oauth)](https://github.com/solidjs/solid-start)
 
 [![Version](https://img.shields.io/npm/v/start-oauth.svg?style=for-the-badge&color=blue&logo=npm)](https://www.npmjs.com/package/start-oauth)
 [![Downloads](https://img.shields.io/npm/dm/start-oauth.svg?style=for-the-badge&color=green&logo=npm)](https://www.npmjs.com/package/start-oauth)
@@ -9,26 +9,18 @@
 
 </div>
 
-Lightweight and secure OAuth 2.1 for [SolidStart](https://github.com/solidjs/solid-start) — access the `name`, `email`, and `image` of authenticated users.
+**Lightweight and Secure OAuth2 for [SolidStart](https://start.solidjs.com)** — Access the `name`, `email`, and when available `image` of authenticated users.
 For extended usage, the `provider` name and access `token` are included in the `oauth` object.
 
-**Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, and Yahoo
+**Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, X, and Yahoo
 
 ## Installation
 
-```bash
-# using npm
-npm install start-oauth
-```
+Add `start-oauth` as a dependency in your **SolidStart** app
 
 ```bash
-# using pnpm
-pnpm add start-oauth
-```
-
-```bash
-# using bun
-bun add start-oauth
+# use preferred package manager
+npm add start-oauth
 ```
 
 ## Configuration
@@ -36,47 +28,44 @@ bun add start-oauth
 Create a catch-all API route at `routes/api/oauth/[...oauth].ts`
 
 ```ts
+import OAuth from "start-oauth";
 import { redirect } from "@solidjs/router";
-import OAuth, { type Configuration } from "start-oauth";
 
-const config: Configuration = {
-  password: process.env.SESSION_SECRET,
+export const GET = OAuth({
+  password: process.env.PASSWORD!, // openssl rand -hex 32
   discord: {
-    id: process.env.DISCORD_ID,
-    secret: process.env.DISCORD_SECRET,
+    id: process.env.DISCORD_ID!,
+    secret: process.env.DISCORD_SECRET!
   },
   google: {
-    id: process.env.GOOGLE_ID,
-    secret: process.env.GOOGLE_SECRET,
+    id: process.env.GOOGLE_ID!,
+    secret: process.env.GOOGLE_SECRET!
   },
   async handler({ name, email, image, oauth }, redirectTo) {
-    // implement your logic (e.g. database call, session creation)
-    const session = await getSession();
-    await session.update({ name, email, image });
+    // add your logic (e.g. database call, session creation)
+    // const session = await getSession();
+    // await session.update({ name, email, image });
 
-    // then redirect user
     return redirect(
       // only allow internal redirects
       redirectTo?.startsWith("/") && !redirectTo.startsWith("//")
         ? redirectTo
-        : "/default"
+        : "/defaultPage"
     );
-  },
-};
-
-export const GET = OAuth(config);
+  }
+});
 ```
 
 In your OAuth provider's dashboard, set the redirect URIs
 
-- **Production**: `https://your-domain.com/api/oauth/[provider]`
 - **Development**: `http://localhost:3000/api/oauth/[provider]`
+- **Production**: `https://your-domain.com/api/oauth/[provider]`
 
 ## Usage
 
 ```tsx
-// for example routes/login.tsx
-import useOAuthLogin from "start-oauth/client";
+// for example in routes/login.tsx
+import { useOAuthLogin } from "start-oauth";
 
 export default function Login() {
   const login = useOAuthLogin();
@@ -103,17 +92,17 @@ See `start-oauth` in action with the SolidStart [with-auth](https://github.com/s
 
 ```bash
 # using npm
-npm create solid -- --s --t with-auth
+npm create solid@latest -- -s -t with-auth
 ```
 
 ```bash
 # using pnpm
-pnpm create solid --s --t with-auth
+pnpm create solid@latest -s -t with-auth
 ```
 
 ```bash
 # using bun
-bun create solid --s --t with-auth
+bun create solid@latest --s --t with-auth
 ```
 
 ## Security Features
@@ -122,7 +111,3 @@ bun create solid --s --t with-auth
 - AES-256-GCM encryption for state parameters to prevent tampering
 - Timeout-protected HTTP requests to avoid hanging connections
 - Strict validation of fallback URLs to prevent open redirects
-
-## Contributing
-
-Contributions are welcome! To add a new provider, duplicate an existing [provider](src/providers/google.ts), update the configuration links, and submit a pull request!

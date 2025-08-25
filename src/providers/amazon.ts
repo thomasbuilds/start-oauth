@@ -10,7 +10,7 @@ const amazon: Methods = {
       redirect_uri,
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://www.amazon.com/ap/oa?" + params;
   },
@@ -32,9 +32,9 @@ const amazon: Methods = {
     return {
       name,
       email: email.toLowerCase(),
-      oauth: { provider: "amazon", token },
+      oauth: { provider: "amazon", token }
     };
-  },
+  }
 };
 
 export default amazon;

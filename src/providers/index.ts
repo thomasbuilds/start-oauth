@@ -5,6 +5,7 @@ import google from "./google";
 import linkedin from "./linkedin";
 import microsoft from "./microsoft";
 import spotify from "./spotify";
+import x from "./x";
 import yahoo from "./yahoo";
 
 export const providers = {
@@ -15,7 +16,8 @@ export const providers = {
   linkedin,
   microsoft,
   spotify,
-  yahoo,
+  x,
+  yahoo
 } as const;
 
 export const isProvider = (str: string): str is Providers =>

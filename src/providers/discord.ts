@@ -10,7 +10,7 @@ const discord: Methods = {
       redirect_uri,
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return "https://discord.com/oauth2/authorize?" + params;
   },
@@ -33,9 +33,9 @@ const discord: Methods = {
       name: username,
       email: email.toLowerCase(),
       image: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
-      oauth: { provider: "discord", token },
+      oauth: { provider: "discord", token }
     };
-  },
+  }
 };
 
 export default discord;

@@ -10,7 +10,7 @@ const microsoft: Methods = {
       scope: "User.Read",
       state,
       code_challenge: challenge,
-      code_challenge_method: "S256",
+      code_challenge_method: "S256"
     });
     return (
       "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" + params
@@ -34,9 +34,9 @@ const microsoft: Methods = {
     return {
       name: displayName,
       email: mail.toLowerCase(),
-      oauth: { provider: "microsoft", token },
+      oauth: { provider: "microsoft", token }
     };
-  },
+  }
 };
 
 export default microsoft;

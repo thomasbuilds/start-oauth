@@ -1,5 +1,12 @@
 import type { Identifiers, Token } from "../types";
 
+export function urlEncode(p: Record<string, string | string[]>) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(p))
+    params.set(key, Array.isArray(value) ? value.join(" ") : value);
+  return params.toString();
+}
+
 async function fetchWithTimeout(url: string, init: RequestInit = {}) {
   const signal = AbortSignal.timeout(5000);
   let response: Response;
@@ -23,15 +30,6 @@ async function fetchWithTimeout(url: string, init: RequestInit = {}) {
     : await response.text();
 }
 
-export function urlEncode(p: Record<string, string | string[]>) {
-  const params = new URLSearchParams();
-  for (const [k, v] of Object.entries(p)) {
-    const value = Array.isArray(v) ? v.join(" ") : v;
-    params.set(k, value);
-  }
-  return params.toString();
-}
-
 export async function exchangeToken(
   url: string,
   creds: Identifiers,
@@ -41,7 +39,7 @@ export async function exchangeToken(
 ): Token {
   const headers: Record<string, string> = {
     "Content-Type": "application/x-www-form-urlencoded",
-    Accept: "application/json",
+    Accept: "application/json"
   };
   if (creds.secret)
     headers.Authorization =
@@ -53,8 +51,8 @@ export async function exchangeToken(
       grant_type: "authorization_code",
       code,
       redirect_uri,
-      code_verifier: verifier,
-    }),
+      code_verifier: verifier
+    })
   });
 }
 
