@@ -2,6 +2,23 @@
   "name": "start-oauth",
   "version": "1.3.0",
   "description": "Lightweight and secure OAuth2 for SolidStart",
+  "keywords": [
+    "api",
+    "crypto",
+    "oauth2",
+    "solidstart"
+  ],
+  "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
+  "bugs": {
+    "url": "https://github.com/thomasbuilds/start-oauth/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomasbuilds/start-oauth.git"
+  },
+  "license": "MIT",
+  "author": "thomasbuilds",
+  "sideEffects": false,
   "type": "module",
   "main": "src/index.ts",
   "files": [
@@ -10,32 +27,15 @@
   "scripts": {
     "format": "prettier --write . --trailing-comma none"
   },
-  "keywords": [
-    "api",
-    "crypto",
-    "oauth2",
-    "solidstart"
-  ],
-  "author": "thomasbuilds",
-  "license": "MIT",
-  "homepage": "https://github.com/thomasbuilds/start-oauth#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thomasbuilds/start-oauth.git"
-  },
-  "bugs": {
-    "url": "https://github.com/thomasbuilds/start-oauth/issues"
-  },
-  "engines": {
-    "node": ">=22"
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "prettier": "^3.6.2"
   },
   "peerDependencies": {
     "@solidjs/router": "^0.15.3",
     "@solidjs/start": "^1.1.7"
   },
-  "devDependencies": {
-    "@types/node": "^24.3.0",
-    "prettier": "^3.6.2"
-  },
-  "sideEffects": false
+  "engines": {
+    "node": ">=22"
+  }
 }
