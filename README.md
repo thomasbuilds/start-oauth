@@ -9,7 +9,7 @@
 
 </div>
 
-Lightweight and secure OAuth 2.1 for [SolidStart](https://github.com/solidjs/solid-start) — access the `name`, `email`, and `image` of authenticated users.
+**Lightweight and Secure OAuth2 for [SolidStart](https://github.com/solidjs/solid-start)** — Access the `name`, `email`, and when available `image` of authenticated users.
 For extended usage, the `provider` name and access `token` are included in the `oauth` object.
 
 **Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, X, and Yahoo
@@ -32,7 +32,7 @@ import { redirect } from "@solidjs/router";
 import OAuth from "start-oauth";
 
 export const GET = OAuth({
-  password: process.env.SESSION_SECRET!,
+  password: process.env.PASSWORD!, // openssl rand -hex 32
   discord: {
     id: process.env.DISCORD_ID!,
     secret: process.env.DISCORD_SECRET!
