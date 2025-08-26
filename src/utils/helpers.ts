@@ -1,5 +1,12 @@
 import type { Identifiers, Token } from "../types";
 
+export function urlEncode(p: Record<string, string | string[]>) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(p))
+    params.set(key, Array.isArray(value) ? value.join(" ") : value);
+  return params.toString();
+}
+
 async function fetchWithTimeout(url: string, init: RequestInit = {}) {
   const signal = AbortSignal.timeout(5000);
   let response: Response;
@@ -21,15 +28,6 @@ async function fetchWithTimeout(url: string, init: RequestInit = {}) {
   return contentType?.includes("json")
     ? await response.json()
     : await response.text();
-}
-
-export function urlEncode(p: Record<string, string | string[]>) {
-  const params = new URLSearchParams();
-  for (const [k, v] of Object.entries(p)) {
-    const value = Array.isArray(v) ? v.join(" ") : v;
-    params.set(k, value);
-  }
-  return params.toString();
 }
 
 export async function exchangeToken(

@@ -7,7 +7,7 @@ const x: Methods = {
       client_id: id,
       redirect_uri,
       response_type: "code",
-      scope: "tweet.read users.read offline.access",
+      scope: ["users.email", "users.read", "offline.access"],
       state,
       code_challenge: challenge,
       code_challenge_method: "S256"

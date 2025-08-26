@@ -7,7 +7,7 @@ const google: Methods = {
       client_id: id,
       redirect_uri,
       response_type: "code",
-      scope: "profile email",
+      scope: ["profile", "email"],
       state,
       code_challenge: challenge,
       code_challenge_method: "S256"

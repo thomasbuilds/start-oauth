@@ -7,7 +7,7 @@ const spotify: Methods = {
       client_id: id,
       response_type: "code",
       redirect_uri,
-      scope: "user-read-private user-read-email",
+      scope: ["user-read-private", "user-read-email"],
       state,
       code_challenge: challenge,
       code_challenge_method: "S256"
