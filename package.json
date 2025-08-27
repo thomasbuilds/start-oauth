@@ -1,7 +1,7 @@
 {
   "name": "start-oauth",
   "version": "1.3.0",
-  "description": "Lightweight and secure OAuth2 for SolidStart",
+  "description": "Lightweight and Secure OAuth2 for SolidStart",
   "keywords": [
     "api",
     "crypto",
