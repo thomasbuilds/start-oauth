@@ -93,17 +93,17 @@ See `start-oauth` in action with the SolidStart [with-auth](https://github.com/s
 
 ```bash
 # using npm
-npm create solid -- --s --t with-auth
+npm create solid@latest -- --s --t with-auth
 ```
 
 ```bash
 # using pnpm
-pnpm create solid --s --t with-auth
+pnpm create solid@latest --s --t with-auth
 ```
 
 ```bash
 # using bun
-bun create solid --s --t with-auth
+bun create solid@latest --s --t with-auth
 ```
 
 ## Security Features
