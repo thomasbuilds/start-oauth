@@ -16,7 +16,7 @@ For extended usage, the `provider` name and access `token` are included in the `
 
 ## Installation
 
-Install `start-oauth` as a dependency in your **SolidStart** app
+Add `start-oauth` as a dependency in your **SolidStart** app
 
 ```bash
 # use preferred package manager
