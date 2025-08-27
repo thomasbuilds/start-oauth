@@ -19,7 +19,7 @@ For extended usage, the `provider` name and access `token` are included in the `
 Install `start-oauth` as a dependency in your **SolidStart** app
 
 ```bash
-# use npm, pnpm, or bun
+# use preferred package manager
 npm add start-oauth
 ```
 
