@@ -1,4 +1,4 @@
-[![Banner](https://assets.solidjs.com/banner?background=tiles&project=oauth)](https://github.com/solidjs)
+[![Banner](https://assets.solidjs.com/banner?background=tiles&type=Start&project=oauth)](https://github.com/solidjs)
 
 <div align="center">
 
