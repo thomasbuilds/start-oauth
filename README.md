@@ -103,7 +103,7 @@ pnpm create solid@latest -s -t with-auth
 
 ```bash
 # using bun
-bun create solid@latest -s -t with-auth
+bun create solid@latest --s --t with-auth
 ```
 
 ## Security Features
