@@ -4,8 +4,10 @@
   "description": "Lightweight and Secure OAuth2 for SolidStart",
   "keywords": [
     "api",
-    "crypto",
     "oauth2",
+    "crypto",
+    "solidjs",
+    "solid-router",
     "solidstart"
   ],
   "homepage": "https://github.com/thomasbuilds/start-oauth#readme",

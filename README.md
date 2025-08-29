@@ -42,7 +42,7 @@ export const GET = OAuth({
     secret: process.env.GOOGLE_SECRET!
   },
   async handler({ name, email, image, oauth }, redirectTo) {
-    // implement your logic (e.g. database call, session creation)
+    // add your logic (e.g. database call, session creation)
     const session = await getSession();
     await session.update({ name, email, image });
 
