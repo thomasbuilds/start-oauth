@@ -28,8 +28,8 @@ npm add start-oauth
 Create a catch-all API route at `routes/api/oauth/[...oauth].ts`
 
 ```ts
-import { redirect } from "@solidjs/router";
 import OAuth from "start-oauth";
+import { redirect } from "@solidjs/router";
 
 export const GET = OAuth({
   password: process.env.PASSWORD!, // openssl rand -hex 32
@@ -43,10 +43,9 @@ export const GET = OAuth({
   },
   async handler({ name, email, image, oauth }, redirectTo) {
     // add your logic (e.g. database call, session creation)
-    const session = await getSession();
-    await session.update({ name, email, image });
+    // const session = await getSession();
+    // await session.update({ name, email, image });
 
-    // then redirect user
     return redirect(
       // only allow internal redirects
       redirectTo?.startsWith("/") && !redirectTo.startsWith("//")
