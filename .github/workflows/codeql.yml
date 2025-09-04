@@ -1,14 +1,10 @@
-# CodeQL Analysis for TypeScript Project
-# This workflow scans for vulnerabilities and code quality issues in JavaScript/TypeScript code.
-name: "CodeQL Advanced"
+name: "CodeQL"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
-  schedule:
-    - cron: '0 0 * * *' # Run daily at midnight UTC for faster vulnerability detection
+    branches: ["main"]
 
 jobs:
   analyze:
@@ -22,32 +18,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript-typescript' ]
-        # Simplified matrix since only one language is needed
+        language: ["javascript-typescript"]
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 # Full history for better analysis
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20' # Use the Node.js version matching your project
-        cache: 'npm' # Cache dependencies for faster runs
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        build-mode: none
-        queries: +security-and-quality # Include security and code quality queries
-        # Add custom queries for OAuth-specific checks if needed
-        # config-file: .github/codeql-config.yml
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: +security-and-quality
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:javascript-typescript"
-        output: ./codeql-results # Save SARIF results for further analysis
-        upload: true # Upload results to GitHub Security tab
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"
+          output: ./codeql-results
+          upload: true
