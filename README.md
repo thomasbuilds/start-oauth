@@ -5,7 +5,7 @@
 [![Version](https://img.shields.io/npm/v/start-oauth.svg?style=for-the-badge&color=blue&logo=npm)](https://www.npmjs.com/package/start-oauth)
 [![Downloads](https://img.shields.io/npm/dm/start-oauth.svg?style=for-the-badge&color=green&logo=npm)](https://www.npmjs.com/package/start-oauth)
 [![Stars](https://img.shields.io/github/stars/thomasbuilds/start-oauth.svg?style=for-the-badge&color=yellow&logo=github)](https://github.com/thomasbuilds/start-oauth)
-[![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge&logo=prettier&logoColor=white)](https://github.com/prettier/prettier)
+[![Discord](https://img.shields.io/discord/722131463138705510?label=join&style=for-the-badge&color=5865F2&logo=discord&logoColor=white)](https://discord.com/invite/solidjs)
 
 </div>
 
