@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: npm install -g pnpm@9
+      - run: corepack prepare pnpm@9 --activate
       - run: pnpm install
         if: steps.setup-node.outputs.cache-hit != 'true'
       - uses: github/codeql-action/init@v3
