@@ -30,7 +30,7 @@
     "format": "prettier --write . --trailing-comma none"
   },
   "devDependencies": {
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.5.0",
     "prettier": "^3.6.2"
   },
   "peerDependencies": {
