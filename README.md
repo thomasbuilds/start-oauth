@@ -88,7 +88,7 @@ export default function Login() {
 
 ## Example
 
-See `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/solid-start/tree/main/examples/with-auth) example
+See `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/templates/tree/main/solid-start/with-auth) example
 
 ```bash
 # using npm
