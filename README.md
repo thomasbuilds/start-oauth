@@ -16,7 +16,7 @@ For extended usage, the `provider` name and access `token` are included in the `
 
 ## Installation
 
-Add `start-oauth` as a dependency in your **SolidStart** app
+Add `start-oauth` as a dependency in your [SolidStart](https://start.solidjs.com) app
 
 ```bash
 # use preferred package manager
@@ -92,12 +92,12 @@ See `start-oauth` in action with the SolidStart [with-auth](https://github.com/s
 
 ```bash
 # using npm
-npm create solid@latest -- -s -t with-auth
+npm create solid@latest -- -st with-auth
 ```
 
 ```bash
 # using pnpm
-pnpm create solid@latest -s -t with-auth
+pnpm create solid@latest -st with-auth
 ```
 
 ```bash
