@@ -16,7 +16,7 @@ For extended usage, the `provider` name and access `token` are included in the `
 
 ## Installation
 
-Add `start-oauth` as a dependency in your [SolidStart](https://start.solidjs.com) app
+Add `start-oauth` as a dependency
 
 ```bash
 # use preferred package manager
