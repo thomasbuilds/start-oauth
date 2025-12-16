@@ -1,6 +1,6 @@
 {
   "name": "start-oauth",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Lightweight and Secure OAuth2 for SolidStart",
   "keywords": [
     "api",
@@ -30,8 +30,8 @@
     "format": "prettier --write . --trailing-comma none"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "prettier": "^3.7.2"
+    "@types/node": "^25.0.2",
+    "prettier": "^3.7.4"
   },
   "peerDependencies": {
     "@solidjs/router": "^0.15.4",
