@@ -30,8 +30,8 @@
     "format": "prettier --write . --trailing-comma none"
   },
   "devDependencies": {
-    "@types/node": "^25.0.2",
-    "prettier": "^3.7.4"
+    "@types/node": "^25.0.10",
+    "prettier": "^3.8.1"
   },
   "peerDependencies": {
     "@solidjs/router": "^0.15.4",
