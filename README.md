@@ -9,7 +9,7 @@
 
 </div>
 
-**Lightweight and Secure OAuth2 for [SolidStart](https://start.solidjs.com)** — Access the `name`, `email`, and when available `image` of authenticated users.
+**Lightweight and Secure OAuth2 for [SolidStart](https://start.solidjs.com)** - Access the `name`, `email`, and when available `image` of authenticated users.
 For extended usage, the `provider` name and access `token` are included in the `oauth` object.
 
 **Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, X, and Yahoo
@@ -88,7 +88,7 @@ export default function Login() {
 
 ## Example
 
-See `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/templates/tree/main/solid-start/with-auth) example
+See `start-oauth` in action with the SolidStart [with-auth](https://github.com/solidjs/templates/tree/main/solid-start-v2/with-auth) example
 
 ```bash
 # using npm
