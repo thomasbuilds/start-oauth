@@ -8,15 +8,10 @@ export function urlEncode(p: Record<string, string | string[]>) {
 }
 
 async function fetchWithTimeout(url: string, init: RequestInit = {}) {
-  const signal = AbortSignal.timeout(5000);
-  let response: Response;
-  try {
-    response = await fetch(url, { ...init, signal });
-  } catch (error: unknown) {
-    if ((error as Error).name === "AbortError")
-      throw new Error("Request timed out");
-    throw error;
-  }
+  const response = await fetch(url, {
+    ...init,
+    signal: AbortSignal.timeout(5000)
+  });
   if (!response.ok) {
     const body = await response.text().catch(() => "");
     const contentType = response.headers.get("content-type");
@@ -37,16 +32,14 @@ export async function exchangeToken(
   redirect_uri: string,
   verifier: string
 ): Token {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Accept: "application/json"
-  };
-  if (creds.secret)
-    headers.Authorization =
-      "Basic " + Buffer.from(`${creds.id}:${creds.secret}`).toString("base64");
   return fetchWithTimeout(url, {
     method: "POST",
-    headers,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+      Authorization:
+        "Basic " + Buffer.from(`${creds.id}:${creds.secret}`).toString("base64")
+    },
     body: urlEncode({
       grant_type: "authorization_code",
       code,
