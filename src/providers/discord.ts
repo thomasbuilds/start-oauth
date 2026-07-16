@@ -24,18 +24,17 @@ const discord: Methods = {
     );
   },
   async requestUser(token) {
-    const { verified, email, username, id, avatar } = await fetchUser(
-      "https://discord.com/api/users/@me",
-      token
-    );
+    const { verified, email, username, global_name, id, avatar } =
+      await fetchUser("https://discord.com/api/users/@me", token);
     if (!verified || !email) throw new Error("Email not verified");
     return {
-      name: username,
+      // username is the unique handle; global_name the display name
+      name: global_name ?? username,
       email: email.toLowerCase(),
       image: avatar
-        ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`
-        : undefined,
-      oauth: { provider: "discord", token }
+        ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith("a_") ? "gif" : "png"}`
+        : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(id) >> 22n) % 6}.png`,
+      oauth: { provider: "discord", token, id }
     };
   }
 };

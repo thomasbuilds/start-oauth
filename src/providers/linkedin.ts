@@ -1,39 +1,46 @@
 import { urlEncode, exchangeToken, fetchUser } from "../utils";
 import type { Methods } from "../types";
 
+// LinkedIn ignores Basic auth and only supports PKCE for gated native
+// apps, so credentials go in the body and no challenge is sent.
 const linkedin: Methods = {
-  requestCode({ id, redirect_uri, state, challenge }) {
+  requestCode({ id, redirect_uri, state }) {
     const params = urlEncode({
       client_id: id,
       redirect_uri,
       response_type: "code",
       scope: ["openid", "profile", "email"],
-      state,
-      code_challenge: challenge,
-      code_challenge_method: "S256"
+      state
     });
     return "https://www.linkedin.com/oauth/v2/authorization?" + params;
   },
-  async requestToken({ id, secret, code, redirect_uri, verifier }) {
+  async requestToken({ id, secret, code, redirect_uri }) {
     return exchangeToken(
       "https://www.linkedin.com/oauth/v2/accessToken",
       { id, secret },
       code,
       redirect_uri,
-      verifier
+      undefined,
+      true
     );
   },
   async requestUser(token) {
-    const { given_name, family_name, email, picture } = await fetchUser(
-      "https://api.linkedin.com/v2/userinfo",
-      token
-    );
+    const {
+      sub,
+      name,
+      given_name,
+      family_name,
+      email,
+      email_verified,
+      picture
+    } = await fetchUser("https://api.linkedin.com/v2/userinfo", token);
     if (!email) throw new Error("Email not available");
+    if (email_verified !== true) throw new Error("Email not verified");
     return {
-      name: `${given_name} ${family_name}`,
+      name: name ?? `${given_name} ${family_name}`,
       email: email.toLowerCase(),
       image: picture,
-      oauth: { provider: "linkedin", token }
+      oauth: { provider: "linkedin", token, id: sub }
     };
   }
 };

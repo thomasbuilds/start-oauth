@@ -9,6 +9,7 @@ const yahoo: Methods = {
       response_type: "code",
       scope: ["openid", "profile", "email"],
       state,
+      nonce: crypto.randomUUID(),
       code_challenge: challenge,
       code_challenge_method: "S256"
     });
@@ -24,16 +25,17 @@ const yahoo: Methods = {
     );
   },
   async requestUser(token) {
-    const { name, email, picture } = await fetchUser(
+    const { sub, name, email, email_verified, picture } = await fetchUser(
       "https://api.login.yahoo.com/openid/v1/userinfo",
       token
     );
     if (!email) throw new Error("Email not available");
+    if (!email_verified) throw new Error("Email not verified");
     return {
       name,
       email: email.toLowerCase(),
       image: picture,
-      oauth: { provider: "yahoo", token }
+      oauth: { provider: "yahoo", token, id: sub }
     };
   }
 };

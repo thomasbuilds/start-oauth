@@ -10,7 +10,7 @@ export interface User {
   name: string;
   email: string;
   image?: string | undefined;
-  oauth: { provider: Providers; token: string };
+  oauth: { provider: Providers; token: string; id: string };
 }
 
 export type Configuration = Partial<Record<Providers, Identifiers>> & {

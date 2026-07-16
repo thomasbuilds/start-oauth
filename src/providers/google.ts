@@ -7,7 +7,8 @@ const google: Methods = {
       client_id: id,
       redirect_uri,
       response_type: "code",
-      scope: ["profile", "email"],
+      // authentication requests must begin with openid
+      scope: ["openid", "profile", "email"],
       state,
       code_challenge: challenge,
       code_challenge_method: "S256"
@@ -24,16 +25,19 @@ const google: Methods = {
     );
   },
   async requestUser(token) {
-    const { name, email, picture } = await fetchUser(
-      "https://www.googleapis.com/oauth2/v3/userinfo",
-      token
-    );
+    const { sub, name, given_name, email, email_verified, picture } =
+      await fetchUser(
+        "https://openidconnect.googleapis.com/v1/userinfo",
+        token
+      );
     if (!email) throw new Error("Email not available");
+    // google is not authoritative for every address on an account
+    if (!email_verified) throw new Error("Email not verified");
     return {
-      name,
+      name: name ?? given_name ?? email,
       email: email.toLowerCase(),
       image: picture,
-      oauth: { provider: "google", token }
+      oauth: { provider: "google", token, id: sub }
     };
   }
 };

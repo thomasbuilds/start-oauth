@@ -7,7 +7,8 @@ const x: Methods = {
       client_id: id,
       redirect_uri,
       response_type: "code",
-      scope: ["users.email", "users.read", "offline.access"],
+      // users/me requires tweet.read alongside users.read
+      scope: ["users.email", "users.read", "tweet.read"],
       state,
       code_challenge: challenge,
       code_challenge_method: "S256"
@@ -33,7 +34,7 @@ const x: Methods = {
       name: data.name,
       email: data.confirmed_email.toLowerCase(),
       image: data.profile_image_url,
-      oauth: { provider: "x", token }
+      oauth: { provider: "x", token, id: data.id }
     };
   }
 };
