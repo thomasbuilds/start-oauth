@@ -1,18 +1,28 @@
-const deriveKey = async (secret: string) =>
-  crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt: Buffer.from("oauth-state-pbkdf2"),
-      iterations: 100000,
-      hash: "SHA-256"
-    },
-    await crypto.subtle.importKey("raw", Buffer.from(secret), "PBKDF2", false, [
-      "deriveKey"
-    ]),
-    { name: "AES-GCM", length: 256 },
-    false,
-    ["encrypt", "decrypt"]
-  );
+const keys = new Map<string, Promise<CryptoKey>>();
+
+function deriveKey(secret: string) {
+  let key = keys.get(secret);
+  if (!key) {
+    key = crypto.subtle
+      .importKey("raw", Buffer.from(secret), "PBKDF2", false, ["deriveKey"])
+      .then((material) =>
+        crypto.subtle.deriveKey(
+          {
+            name: "PBKDF2",
+            salt: Buffer.from("oauth-state-pbkdf2"),
+            iterations: 100000,
+            hash: "SHA-256"
+          },
+          material,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["encrypt", "decrypt"]
+        )
+      );
+    keys.set(secret, key);
+  }
+  return key;
+}
 
 type BaseState = { fallback: string; redirect?: string };
 type State = BaseState & { exp: number; verifier: string };
