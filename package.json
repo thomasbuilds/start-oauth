@@ -34,7 +34,8 @@
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
-    "prettier": "^3.9.5"
+    "prettier": "^3.9.5",
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "@solidjs/router": "^0.16.2",
