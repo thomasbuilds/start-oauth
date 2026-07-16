@@ -27,7 +27,10 @@
     "src"
   ],
   "scripts": {
-    "format": "prettier --write . --trailing-comma none"
+    "format": "prettier --write ."
+  },
+  "prettier": {
+    "trailingComma": "none"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
