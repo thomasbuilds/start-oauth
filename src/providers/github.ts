@@ -23,7 +23,10 @@ const github: Methods = {
     );
   },
   async requestUser(token) {
-    const [{ name, avatar_url }, emails] = await Promise.all([
+    const [{ name, avatar_url }, emails]: [
+      { name: string; avatar_url: string },
+      { email: string; primary: boolean; verified: boolean }[]
+    ] = await Promise.all([
       fetchUser("https://api.github.com/user", token),
       fetchUser("https://api.github.com/user/emails", token)
     ]);

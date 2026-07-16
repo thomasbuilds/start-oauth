@@ -20,7 +20,7 @@ export const providers = {
   yahoo
 } as const;
 
-export const isProvider = (str: string): str is Providers =>
-  Object.hasOwn(providers, str);
+export const isProvider = (str: string | undefined): str is Providers =>
+  !!str && Object.hasOwn(providers, str);
 
 export type Providers = keyof typeof providers;

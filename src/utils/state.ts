@@ -24,7 +24,7 @@ function deriveKey(secret: string) {
   return key;
 }
 
-type BaseState = { fallback: string; redirect?: string };
+type BaseState = { fallback: string; redirect?: string | undefined };
 type State = BaseState & { exp: number; verifier: string };
 
 export async function makeState(

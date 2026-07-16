@@ -9,7 +9,7 @@ export interface Identifiers {
 export interface User {
   name: string;
   email: string;
-  image?: string;
+  image?: string | undefined;
   oauth: { provider: Providers; token: string };
 }
 
