@@ -10,9 +10,9 @@
 </div>
 
 **Lightweight and Secure OAuth2 for [SolidStart](https://start.solidjs.com)** - Access the `name`, `email`, and when available `image` of authenticated users.
-For extended usage, the `provider` name and access `token` are included in the `oauth` object.
+For extended usage, the `oauth` object includes the `provider` name, the provider's stable user `id`, and the access `token`. Key accounts on `(provider, id)` rather than email - every email is provider-verified at sign-in, but addresses can still change over time.
 
-**Supported Providers:** Amazon, Discord, GitHub, Google, LinkedIn, Microsoft, Spotify, X, and Yahoo
+**Supported Providers:** Discord, GitHub, GitLab, Google, LinkedIn, Slack, Twitch, X, and Yahoo
 
 ## Installation
 
@@ -107,7 +107,8 @@ bun create solid@latest --s --t with-auth
 
 ## Security Features
 
-- Stateless PKCE with SHA-256 code challenges
+- Sign-in requires an email the provider attests as verified
+- PKCE with SHA-256 code challenges on every provider that supports it
 - AES-256-GCM encryption for state parameters to prevent tampering
 - Timeout-protected HTTP requests to avoid hanging connections
 - Strict validation of fallback URLs to prevent open redirects
