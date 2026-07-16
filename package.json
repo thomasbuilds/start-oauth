@@ -32,11 +32,6 @@
   "prettier": {
     "trailingComma": "none"
   },
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "esbuild"
-    ]
-  },
   "devDependencies": {
     "@types/node": "^26.1.1",
     "prettier": "^3.9.5",
