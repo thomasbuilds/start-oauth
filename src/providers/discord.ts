@@ -32,7 +32,9 @@ const discord: Methods = {
     return {
       name: username,
       email: email.toLowerCase(),
-      image: `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`,
+      image: avatar
+        ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.png`
+        : undefined,
       oauth: { provider: "discord", token }
     };
   }
