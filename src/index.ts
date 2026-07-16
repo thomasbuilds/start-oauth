@@ -51,7 +51,7 @@ export default function OAuth(config: Configuration) {
         verifier: decoded.verifier
       });
       const user = await requestUser(`${token_type} ${access_token}`);
-      return handler(user, decoded.redirect);
+      return await handler(user, decoded.redirect);
     } catch (error: unknown) {
       return redirect(`${decoded.fallback}?error=${parseError(error)}`);
     }
